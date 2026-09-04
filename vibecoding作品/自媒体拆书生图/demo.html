@@ -1,0 +1,1076 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>智能分镜助手 · Storyboard Studio</title>
+    <style>
+        :root {
+            --bg: #f7f7f9;
+            --surface: #ffffff;
+            --surface-sub: #f3f3f5;
+            --surface-hover: #eaeaea;
+            --border: rgba(0, 0, 0, 0.07);
+            --border-strong: rgba(0, 0, 0, 0.13);
+            --ink: #121214;
+            --ink-secondary: #4a4a52;
+            --ink-muted: #8e8e96;
+            --accent: #121214;
+            --accent-blue: #2563eb;
+            --accent-green: #10b981;
+            --radius-sm: 6px;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --shadow-subtle: 0 1px 3px rgba(0, 0, 0, 0.03), 0 4px 12px rgba(0, 0, 0, 0.015);
+            --shadow-hover: 0 6px 20px rgba(0, 0, 0, 0.06), 0 2px 4px rgba(0, 0, 0, 0.03);
+            --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+            --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--ink);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            user-select: none;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ================= 顶部导航 ================= */
+        .navbar {
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            height: 44px;
+            z-index: 100;
+            flex-shrink: 0;
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .brand-pill {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12.5px;
+            font-weight: 750;
+            color: var(--ink);
+            letter-spacing: -0.02em;
+        }
+        .brand-icon-box {
+            width: 18px;
+            height: 18px;
+            border-radius: 5px;
+            background: var(--ink);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        .nav-segmented-tabs {
+            display: flex;
+            background: var(--surface-sub);
+            padding: 2.5px;
+            border-radius: 8px;
+            gap: 2px;
+            border: 1px solid var(--border);
+        }
+        .nav-tab {
+            padding: 3.5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 11.5px;
+            color: var(--ink-secondary);
+            transition: all .2s cubic-bezier(.16,1,.3,1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .nav-tab:hover:not(.active) {
+            color: var(--ink);
+        }
+        .nav-tab.active {
+            background: #ffffff;
+            color: var(--ink);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--ink-muted);
+        }
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(16, 185, 129, 0.08);
+            color: #047857;
+            padding: 2.5px 8px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 10.5px;
+            border: 1px solid rgba(16, 185, 129, 0.18);
+        }
+        .status-ping {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--accent-green);
+            box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
+        }
+
+        /* ================= 核心两栏布局 ================= */
+        .layout {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* 左侧侧边栏 */
+        .sidebar {
+            width: 254px;
+            background: #ffffff;
+            padding: 12px;
+            box-shadow: 1px 0 0 var(--border);
+            overflow-y: auto;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .section-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 9px 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            transition: border-color .2s;
+        }
+        .section-card:hover {
+            border-color: var(--border-strong);
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+        .section-tag {
+            font-size: 9.5px;
+            font-weight: 600;
+            color: var(--ink-secondary);
+            background: rgba(0,0,0,0.04);
+            padding: 1px 5px;
+            border-radius: 4px;
+            font-family: var(--font-mono);
+        }
+        label {
+            display: block;
+            font-weight: 600;
+            font-size: 9px;
+            color: var(--ink-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-top: 3px;
+        }
+        input, textarea, select {
+            width: 100%;
+            padding: 5.5px 8px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: #ffffff;
+            box-sizing: border-box;
+            font-size: 11px;
+            color: var(--ink);
+            font-family: inherit;
+            transition: all .2s;
+            outline: none;
+        }
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--ink);
+            box-shadow: 0 0 0 2px rgba(18, 18, 20, 0.08);
+        }
+        textarea {
+            height: 52px;
+            resize: none;
+            line-height: 1.45;
+        }
+
+        .btn {
+            padding: 5.5px 11px;
+            border: 1px solid transparent;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 10.5px;
+            transition: all 0.2s cubic-bezier(.16,1,.3,1);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            user-select: none;
+        }
+        .btn-full { width: 100%; margin-top: 4px; }
+        .btn-solid-dark {
+            background: var(--ink);
+            color: #ffffff;
+        }
+        .btn-solid-dark:hover {
+            background: #27272a;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .btn-outline {
+            background: #ffffff;
+            border-color: var(--border-strong);
+            color: var(--ink);
+        }
+        .btn-outline:hover {
+            background: var(--surface-sub);
+            border-color: var(--ink);
+        }
+
+        .helper-preview-box {
+            background: #ffffff;
+            border: 1px dashed var(--border-strong);
+            padding: 5px 7px;
+            font-size: 9.5px;
+            border-radius: var(--radius-sm);
+            margin-top: 3px;
+            cursor: pointer;
+            color: var(--ink-secondary);
+            font-family: var(--font-mono);
+            line-height: 1.4;
+            max-height: 52px;
+            overflow-y: auto;
+            transition: all .2s;
+        }
+        .helper-preview-box:hover {
+            border-color: var(--ink);
+            color: var(--ink);
+            background: #fafafa;
+        }
+
+        /* ================= 右侧工作台 ================= */
+        .page {
+            display: none;
+            flex: 1;
+            padding: 12px 16px;
+            overflow-y: auto;
+        }
+        .page.active { display: block; }
+
+        /* 工作台顶栏 */
+        .ws-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+        .proj-title-group {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .proj-title-input {
+            font-size: 13.5px;
+            font-weight: 750;
+            border: 1px solid transparent;
+            background: transparent;
+            width: 220px;
+            padding: 2px 5px;
+            border-radius: var(--radius-sm);
+            color: var(--ink);
+            letter-spacing: -0.01em;
+        }
+        .proj-title-input:hover, .proj-title-input:focus {
+            background: #ffffff;
+            border-color: var(--border);
+        }
+        .counter-chip {
+            font-size: 9.5px;
+            font-weight: 600;
+            background: var(--surface-sub);
+            border: 1px solid var(--border);
+            color: var(--ink-secondary);
+            padding: 2px 6px;
+            border-radius: 100px;
+            font-family: var(--font-mono);
+        }
+
+        /* 分镜卡片序列 */
+        .scene-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding-bottom: 24px;
+        }
+        .scene-card {
+            background: var(--surface);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            border: 1px solid var(--border);
+            overflow: hidden;
+            position: relative;
+            transition: all .25s cubic-bezier(.16,1,.3,1);
+        }
+        .scene-card:hover {
+            box-shadow: var(--shadow-hover);
+            border-color: var(--border-strong);
+        }
+        .scene-gutter {
+            width: 26px;
+            background: var(--surface-sub);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid var(--border);
+        }
+        .gutter-btn {
+            flex: 1;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--ink-muted);
+            font-size: 9.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .15s;
+        }
+        .gutter-btn:hover {
+            background: #e4e4e7;
+            color: var(--ink);
+        }
+        .scene-content {
+            flex: 1;
+            padding: 9px 11px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            min-width: 0;
+        }
+        .scene-meta-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .scene-idx-tag {
+            font-size: 9.5px;
+            font-weight: 700;
+            color: var(--ink);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .scene-idx-tag span {
+            font-family: var(--font-mono);
+            font-size: 9px;
+            background: var(--surface-sub);
+            border: 1px solid var(--border);
+            padding: 1px 4px;
+            border-radius: 3px;
+            color: var(--ink-secondary);
+        }
+        .prompt-box {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--ink-secondary);
+            font-family: var(--font-mono);
+            font-size: 9.5px;
+            height: 48px;
+            border-radius: var(--radius-sm);
+            line-height: 1.4;
+        }
+
+        /* ================= 16:9 电影监视器视窗 (Director Monitor) ================= */
+        .scene-frame {
+            width: 195px;
+            background: #fafafb;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            padding: 7px;
+            border-left: 1px solid var(--border);
+            position: relative;
+            flex-shrink: 0;
+        }
+        .frame-aspect-box {
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 4px;
+            overflow: hidden;
+            background: #09090b;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.14);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .frame-aspect-box svg {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .frame-ctrl-row {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 5px;
+            gap: 5px;
+        }
+        .btn-gen-sm {
+            flex: 1;
+            padding: 3.5px 6px;
+            font-size: 9.5px;
+            border-radius: 4px;
+        }
+        .scene-del-sm {
+            background: transparent;
+            border: none;
+            color: var(--ink-muted);
+            cursor: pointer;
+            font-size: 9.5px;
+            padding: 2px 4px;
+            border-radius: 3px;
+            transition: all .15s;
+        }
+        .scene-del-sm:hover {
+            color: #ef4444;
+            background: rgba(239, 68, 68, 0.08);
+        }
+
+        /* 渲染动效 */
+        .loading-spin {
+            border: 2px solid rgba(255,255,255,0.25);
+            border-top: 2px solid #ffffff;
+            border-radius: 50%;
+            width: 15px;
+            height: 15px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ================= 项目管理视图 ================= */
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 9px;
+            margin-top: 9px;
+        }
+        .project-card-item {
+            background: #ffffff;
+            padding: 11px;
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-subtle);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            gap: 8px;
+            transition: all .2s;
+        }
+        .project-card-item:hover {
+            border-color: var(--ink);
+            box-shadow: var(--shadow-hover);
+        }
+        .project-card-item.active {
+            border-color: var(--ink);
+            background: #fafafd;
+            box-shadow: 0 0 0 1.5px var(--ink);
+        }
+
+        /* 滚动条 */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.12); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
+
+        @media (max-width: 680px) {
+            .sidebar { width: 175px; padding: 8px; }
+            .scene-frame { width: 135px; }
+            .proj-title-input { width: 135px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部极简导航 -->
+    <div class="navbar">
+        <div class="nav-left">
+            <div class="nav-segmented-tabs">
+                <div class="nav-tab active" id="tab-workstation" onclick="showPage('workstation')">🎬 分镜制作</div>
+                <div class="nav-tab" id="tab-manager" onclick="showPage('manager')">📁 项目管理</div>
+            </div>
+        </div>
+        <div class="nav-right">
+            <span class="status-badge"><span class="status-ping"></span> MJ-v6 风格锁定</span>
+        </div>
+    </div>
+
+    <!-- 主体两栏 -->
+    <div class="layout">
+        <!-- 左侧参数与拆分控制 -->
+        <div class="sidebar">
+            <div class="section-card">
+                <div class="section-header">
+                    <span>⚙️ 核心网关</span>
+                    <span class="section-tag">GPT-4o / MJ</span>
+                </div>
+                <label>API Key / 网关鉴权</label>
+                <input type="password" id="apiKey" value="sk-director-pipeline-key-live" placeholder="API Key">
+                <div style="display:flex; gap:4px; margin-top:2px;">
+                    <div style="flex:1;">
+                        <label>拆解模型</label>
+                        <input type="text" id="llmModel" value="gpt-4o-mini">
+                    </div>
+                    <div style="flex:1;">
+                        <label>生图引擎</label>
+                        <input type="text" id="imgModel" value="midjourney-v6">
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <span>🎨 长篇文稿智能拆解</span>
+                    <span class="section-tag">一键成片</span>
+                </div>
+                <label>长篇文稿 / 故事原著片段</label>
+                <textarea id="scriptText" placeholder="在此粘贴文稿...">多年以后，奥雷里亚诺·布恩迪亚上校面对行刑队，将会回想起父亲带他去见识冰块的那个遥远的下午。那时的马孔多是一个只有二十户人家的村落，泥巴和芦苇盖成的房屋沿河岸排开，河水清澈见底，河床里巨卵般白皙光滑的石头宛如史前巨兽的蛋。每年三月前后，吉普赛人都会在村落附近搭起帐篷，展示新奇的发明...</textarea>
+                <div style="display:flex; align-items:center; justify-content:space-between; margin-top:3px;">
+                    <span style="font-size:9.5px; color:var(--ink-secondary); font-weight:600;">分镜数量:</span>
+                    <input type="number" id="sceneCount" value="4" style="width:44px; text-align:center; padding:2px;">
+                </div>
+                <button class="btn btn-solid-dark btn-full" id="analyzeBtn" onclick="analyzeScript()">⚡ 智能拆分分镜序列</button>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <span>💡 镜头语言与提示词</span>
+                </div>
+                <textarea id="helperInput" placeholder="输入场景灵感关键词...">马孔多晨雾中的清澈河流，河床巨大白石，原始雨林构图</textarea>
+                <button class="btn btn-outline btn-full" id="helperBtn" onclick="generateExpertPrompt()">🪄 转为电影级 Prompt</button>
+                <div id="helperRes" class="helper-preview-box" onclick="copyHelperRes()" title="点击复制">Aerial establishing shot, Macondo riverside at dawn, crystal water over giant white stones, golden cinematic haze, 8k --ar 16:9</div>
+            </div>
+            
+            <div class="section-card">
+                <div class="section-header">
+                    <span>🔒 画幅与风格锁定</span>
+                </div>
+                <input type="text" id="styleSuffix" value="--ar 16:9 --v 6.0 --style raw --c 3" style="font-family:var(--font-mono); font-size:9.5px;">
+            </div>
+        </div>
+
+        <!-- 右侧：分镜工作台 -->
+        <div id="workstation" class="page active">
+            <div class="ws-toolbar">
+                <div class="proj-title-group">
+                    <input type="text" id="activeProjTitle" class="proj-title-input" value="《百年孤独》开篇 · 拆书分镜序列" onchange="renameProjectDirectly(this.value)">
+                    <span class="counter-chip" id="sceneCountBadge">4 幕分镜</span>
+                </div>
+                <div style="display:flex; gap:5px;">
+                    <button class="btn btn-outline" onclick="addManualScene()">➕ 新增分镜</button>
+                    <button class="btn btn-solid-dark" onclick="generateAll()">🚀 顺序批量生图</button>
+                </div>
+            </div>
+
+            <!-- 分镜卡片序列 -->
+            <div class="scene-flow" id="sceneContainer"></div>
+        </div>
+
+        <!-- 右侧：项目管理中心 -->
+        <div id="manager" class="page">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <div>
+                    <h3 style="font-size:13.5px; font-weight:700;">📁 多项目归档中心</h3>
+                    <p style="font-size:10px; color:var(--ink-secondary); margin-top:1px;">独立管理不同书目与短剧的分镜资产</p>
+                </div>
+                <button class="btn btn-solid-dark" onclick="createNewProject()">➕ 新建项目</button>
+            </div>
+            <div class="project-grid" id="projectGrid"></div>
+        </div>
+    </div>
+
+    <script>
+        let projects = [
+            {
+                id: "proj_01",
+                name: "《百年孤独》开篇 · 拆书分镜序列",
+                time: "2026-04-18 15:30",
+                scenes: [
+                    {
+                        original: "多年以后，奥雷里亚诺·布恩迪亚上校面对行刑队，将会回想起父亲带他去见识冰块的那个遥远的下午。",
+                        prompt: "Cinematic wide shot, 19th-century colonial Latin America, firing squad facing Colonel Aureliano, high noon dramatic sunlight, golden dust particles, emotional depth, anamorphic lens, shot on 35mm film, hyper-realistic, 8k --ar 16:9 --v 6.0",
+                        svgTheme: "firing_squad",
+                        generated: true
+                    },
+                    {
+                        original: "那时的马孔多是一个只有二十户人家的村落，泥巴和芦苇盖成的房屋沿河岸排开，河水清澈见底，河床里巨卵般白皙光滑的石头宛如史前巨兽的蛋。",
+                        prompt: "Atmospheric establishing shot of a primitive riverside village, clear crystalline running water, smooth gigantic white riverbed stones, tropical lush greenery, misty morning light, Gabriel Garcia Marquez magic realism, Unreal Engine 5 --ar 16:9 --v 6.0",
+                        svgTheme: "river_village",
+                        generated: true
+                    },
+                    {
+                        original: "每年三月前后，衣衫褴褛的吉普赛人都会在村落附近搭起帐篷，伴着笛鼓的喧嚣，向村里人展示各种新奇的西洋发明。",
+                        prompt: "Medium shot, vibrant gypsy caravan festival outside a dusty village, tents in earthy tones, bearded alchemist Melquiades demonstrating brass astrolabe and giant magnet, cinematic haze, vintage warm color palette --ar 16:9 --v 6.0",
+                        svgTheme: "gypsy_caravan",
+                        generated: true
+                    },
+                    {
+                        original: "他手里托着那块巨大的冰块，散发着刺骨的白汽，孩子们屏住呼吸，第一次触碰到了文明世界的奇迹。",
+                        prompt: "Intimate close-up, rugged weathered hands holding a glowing translucent block of ice in tropical sweltering heat, evaporating mist, wonder in eyes, cinematic rim lighting, masterpiece, photojournalism aesthetic --ar 16:9 --v 6.0",
+                        svgTheme: "ice_wonder",
+                        generated: false
+                    }
+                ]
+            },
+            {
+                id: "proj_02",
+                name: "《三体·古筝行动》大峡谷设伏分镜",
+                time: "2026-03-24 10:15",
+                scenes: [
+                    { original: "巴拿马运河盖拉德水道两岸，两根立柱之间拉起细若游丝的纳米飞刃...", prompt: "Cinematic wide angle, Panama Canal, invisible ultra-thin nanofiber wires slicing sunlight, thriller tone --ar 16:9 --v 6.0", svgTheme: "canal", generated: true },
+                    { original: "审判日号巨轮缓缓驶入死亡陷阱，巨大的船体在晨光中投下压迫感极强的阴影...", prompt: "Low-angle dynamic shot, massive tanker 'Judgment Day' cruising into canal corridor, dramatic atmosphere --ar 16:9 --v 6.0", svgTheme: "tanker", generated: true }
+                ]
+            }
+        ];
+
+        let currentProject = projects[0];
+
+        // 电影导演监视器级高保真渲染（加入监视器十字对焦刻度、时间码与电影画幅）
+        function createSceneVisual(theme, isGen) {
+            if (!isGen) {
+                return `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; color:var(--ink-muted); font-size:9px; gap:3px;">
+                    <span style="font-size:15px; opacity:0.4;">🎬</span>
+                    <span style="font-family:var(--font-mono);">STANDBY</span>
+                </div>`;
+            }
+
+            if (theme === 'firing_squad') {
+                return `<svg viewBox="0 0 400 225" style="width:100%; height:100%; display:block;" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#141210"/><stop offset="55%" stop-color="#38332e"/><stop offset="100%" stop-color="#6e6259"/>
+                        </linearGradient>
+                        <radialGradient id="sun" cx="78%" cy="28%" r="62%">
+                            <stop offset="0%" stop-color="#fef3c7" stop-opacity="0.9"/><stop offset="65%" stop-color="#d97706" stop-opacity="0.28"/><stop offset="100%" stop-color="#141210" stop-opacity="0"/>
+                        </radialGradient>
+                    </defs>
+                    <rect width="400" height="225" fill="url(#g1)"/>
+                    <rect width="400" height="225" fill="url(#sun)"/>
+                    <!-- 地面与泥墙 -->
+                    <polygon points="0,170 400,150 400,225 0,225" fill="#080706"/>
+                    <polygon points="0,130 180,110 180,180 0,190" fill="#211d1a" opacity="0.9"/>
+                    <!-- 上校孤影 -->
+                    <circle cx="85" cy="115" r="8" fill="#000"/><path d="M78 123 L92 123 L95 165 L75 165 Z" fill="#000"/>
+                    <!-- 行刑队剪影 -->
+                    <g fill="#000" opacity="0.98">
+                        <circle cx="280" cy="110" r="7"/><rect x="274" y="117" width="12" height="42"/>
+                        <circle cx="315" cy="108" r="7"/><rect x="309" y="115" width="12" height="44"/>
+                        <circle cx="350" cy="106" r="7"/><rect x="344" y="113" width="12" height="46"/>
+                        <line x1="270" y1="125" x2="160" y2="128" stroke="#000" stroke-width="2.5"/>
+                        <line x1="305" y1="123" x2="180" y2="126" stroke="#000" stroke-width="2.5"/>
+                        <line x1="340" y1="121" x2="200" y2="124" stroke="#000" stroke-width="2.5"/>
+                    </g>
+                    <!-- 光尘与微粒 -->
+                    <circle cx="140" cy="90" r="2" fill="#fff" opacity="0.75"/><circle cx="210" cy="70" r="2.5" fill="#fff" opacity="0.5"/>
+                    <!-- 监视器四角刻度与时间码 -->
+                    <path d="M12 18 L18 18 M12 18 L12 24 M388 18 L382 18 M388 18 L388 24 M12 207 L18 207 M12 207 L12 201 M388 207 L382 207 M388 207 L388 201" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+                    <text x="24" y="22" fill="#ef4444" font-size="8" font-family="monospace" font-weight="700">● REC</text>
+                    <text x="56" y="22" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace">00:01:24:12</text>
+                    <text x="312" y="22" fill="rgba(255,255,255,0.6)" font-size="8" font-family="monospace">35MM T2.0</text>
+                    <text x="24" y="204" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace" font-weight="700">SHOT 01 · 16:9</text>
+                    <text x="332" y="204" fill="rgba(255,255,255,0.45)" font-size="7.5" font-family="monospace">MJ v6.0</text>
+                </svg>`;
+            } else if (theme === 'river_village') {
+                return `<svg viewBox="0 0 400 225" style="width:100%; height:100%; display:block;" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="sky2" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stop-color="#09101d"/><stop offset="60%" stop-color="#182635"/><stop offset="100%" stop-color="#3b4d61"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="400" height="225" fill="url(#sky2)"/>
+                    <path d="M0 120 Q100 80 220 110 T400 95 L400 225 L0 225 Z" fill="#060b13" opacity="0.92"/>
+                    <path d="M0 150 Q160 140 240 180 T400 170 L400 225 L0 225 Z" fill="#243345"/>
+                    <ellipse cx="120" cy="190" rx="35" ry="18" fill="#cbd5e1"/><ellipse cx="118" cy="188" rx="30" ry="14" fill="#f8fafc"/>
+                    <ellipse cx="230" cy="202" rx="42" ry="16" fill="#94a3b8"/><ellipse cx="228" cy="200" rx="38" ry="13" fill="#f1f5f9"/>
+                    <polygon points="280,125 320,105 360,125" fill="#334155"/><rect x="290" y="125" width="60" height="30" fill="#141c24"/>
+                    <!-- 监视器四角刻度与时间码 -->
+                    <path d="M12 18 L18 18 M12 18 L12 24 M388 18 L382 18 M388 18 L388 24 M12 207 L18 207 M12 207 L12 201 M388 207 L382 207 M388 207 L388 201" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+                    <text x="24" y="22" fill="#ef4444" font-size="8" font-family="monospace" font-weight="700">● REC</text>
+                    <text x="56" y="22" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace">00:02:40:08</text>
+                    <text x="312" y="22" fill="rgba(255,255,255,0.6)" font-size="8" font-family="monospace">24MM WIDE</text>
+                    <text x="24" y="204" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace" font-weight="700">SHOT 02 · 16:9</text>
+                    <text x="332" y="204" fill="rgba(255,255,255,0.45)" font-size="7.5" font-family="monospace">MJ v6.0</text>
+                </svg>`;
+            } else if (theme === 'gypsy_caravan') {
+                return `<svg viewBox="0 0 400 225" style="width:100%; height:100%; display:block;" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g3" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#1f1f23"/><stop offset="50%" stop-color="#3f3f46"/><stop offset="100%" stop-color="#71717a"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="400" height="225" fill="url(#g3)"/>
+                    <polygon points="60,165 130,85 200,165" fill="#111113" opacity="0.9"/>
+                    <polygon points="170,170 240,95 310,170" fill="#1f1f23" opacity="0.85"/>
+                    <circle cx="160" cy="120" r="10" fill="#000"/><rect x="150" y="130" width="20" height="40" fill="#000"/>
+                    <circle cx="178" cy="132" r="6" fill="#fde047" opacity="0.9"/>
+                    <!-- 监视器四角刻度与时间码 -->
+                    <path d="M12 18 L18 18 M12 18 L12 24 M388 18 L382 18 M388 18 L388 24 M12 207 L18 207 M12 207 L12 201 M388 207 L382 207 M388 207 L388 201" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+                    <text x="24" y="22" fill="#ef4444" font-size="8" font-family="monospace" font-weight="700">● REC</text>
+                    <text x="56" y="22" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace">00:04:15:19</text>
+                    <text x="312" y="22" fill="rgba(255,255,255,0.6)" font-size="8" font-family="monospace">50MM MED</text>
+                    <text x="24" y="204" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace" font-weight="700">SHOT 03 · 16:9</text>
+                    <text x="332" y="204" fill="rgba(255,255,255,0.45)" font-size="7.5" font-family="monospace">MJ v6.0</text>
+                </svg>`;
+            } else {
+                return `<svg viewBox="0 0 400 225" style="width:100%; height:100%; display:block;" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="iceg" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="#080a0f"/><stop offset="60%" stop-color="#111827"/><stop offset="100%" stop-color="#1f2937"/>
+                        </linearGradient>
+                    </defs>
+                    <rect width="400" height="225" fill="url(#iceg)"/>
+                    <polygon points="200,60 260,95 240,165 160,165 140,95" fill="#e0f2fe" opacity="0.92"/>
+                    <polygon points="200,60 260,95 200,120 140,95" fill="#ffffff" opacity="0.98"/>
+                    <circle cx="200" cy="115" r="45" fill="#38bdf8" opacity="0.25"/>
+                    <!-- 监视器四角刻度与时间码 -->
+                    <path d="M12 18 L18 18 M12 18 L12 24 M388 18 L382 18 M388 18 L388 24 M12 207 L18 207 M12 207 L12 201 M388 207 L382 207 M388 207 L388 201" stroke="rgba(255,255,255,0.4)" stroke-width="1.2" fill="none"/>
+                    <text x="24" y="22" fill="#ef4444" font-size="8" font-family="monospace" font-weight="700">● REC</text>
+                    <text x="56" y="22" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace">00:06:50:02</text>
+                    <text x="312" y="22" fill="rgba(255,255,255,0.6)" font-size="8" font-family="monospace">85MM MACRO</text>
+                    <text x="24" y="204" fill="rgba(255,255,255,0.7)" font-size="8" font-family="monospace" font-weight="700">SHOT 04 · 16:9</text>
+                    <text x="332" y="204" fill="rgba(255,255,255,0.45)" font-size="7.5" font-family="monospace">MJ v6.0</text>
+                </svg>`;
+            }
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(pageId).classList.add('active');
+            document.getElementById('tab-' + pageId).classList.add('active');
+            if (pageId === 'manager') renderProjectManager();
+        }
+
+        /* ===== 重新渲染多 Take 方案 =====
+           每个主题预置 4 组拍摄方案（光位/色温/构图/时间码/焦段），
+           每点一次"重新渲染"切换到下一条 Take，呈现真正不同的出图结果。 */
+        const sceneVariants = {
+            firing_squad: {
+                list: [
+                    { sun:'cx="78%" cy="28%"', core:'#fef3c7', glow:'#d97706', g2:'#38332e', g3:'#6e6259', hero:'translate(0,0)', d1:[140,90], d2:[210,70], tc:'00:01:24:12', focal:'35MM T2.0' },
+                    { sun:'cx="60%" cy="20%"', core:'#e0f2fe', glow:'#38bdf8', g2:'#2c3438', g3:'#5f6b74', hero:'translate(26,5)', d1:[105,74], d2:[238,58], tc:'00:01:29:33', focal:'50MM T1.8' },
+                    { sun:'cx="86%" cy="38%"', core:'#fde68a', glow:'#f59e0b', g2:'#3a3228', g3:'#7a6c52', hero:'translate(-30,-3)', d1:[168,102], d2:[186,86], tc:'00:01:33:08', focal:'35MM T2.8' },
+                    { sun:'cx="70%" cy="46%"', core:'#fef3c7', glow:'#ea580c', g2:'#332e3a', g3:'#6f5f70', hero:'translate(12,9)', d1:[122,66], d2:[228,94], tc:'00:01:38:51', focal:'85MM T2.0' }
+                ],
+                paint(svg, c, take) {
+                    svg = svg.replace('cx="78%" cy="28%"', c.sun)
+                             .replace('stop-color="#fef3c7"', 'stop-color="' + c.core + '"')
+                             .replace('stop-color="#d97706"', 'stop-color="' + c.glow + '"')
+                             .replace('stop-color="#38332e"', 'stop-color="' + c.g2 + '"')
+                             .replace('stop-color="#6e6259"', 'stop-color="' + c.g3 + '"')
+                             .replace('<!-- 上校孤影 -->', '<!-- 上校孤影 --><g transform="' + c.hero + '">')
+                             .replace('<!-- 光尘与微粒 -->', '</g><!-- 光尘与微粒 -->')
+                             .replace('<circle cx="140" cy="90"', '<circle cx="' + c.d1[0] + '" cy="' + c.d1[1] + '"')
+                             .replace('<circle cx="210" cy="70"', '<circle cx="' + c.d2[0] + '" cy="' + c.d2[1] + '"')
+                             .replace('>35MM T2.0<', '>' + c.focal + '<');
+                    return meta(svg, c, take);
+                }
+            },
+            river_village: {
+                list: [
+                    { sky1:'#09101d', sky2:'#182635', sky3:'#3b4d61', stones:'translate(0,0)', house:'translate(0,0)', tc:'00:02:40:08', focal:'24MM WIDE' },
+                    { sky1:'#0b1420', sky2:'#20344a', sky3:'#4a5d74', stones:'translate(-26,3)', house:'translate(42,-2)', tc:'00:02:44:19', focal:'20MM WIDE' },
+                    { sky1:'#101423', sky2:'#2a2a3e', sky3:'#54486a', stones:'translate(18,-4)', house:'translate(-38,4)', tc:'00:02:49:02', focal:'28MM WIDE' },
+                    { sky1:'#0a1626', sky2:'#1c3040', sky3:'#455d6d', stones:'translate(-6,7)', house:'translate(10,-8)', tc:'00:02:55:40', focal:'35MM WIDE' }
+                ],
+                paint(svg, c, take) {
+                    svg = svg.replace('stop-color="#09101d"', 'stop-color="' + c.sky1 + '"')
+                             .replace('stop-color="#182635"', 'stop-color="' + c.sky2 + '"')
+                             .replace('stop-color="#3b4d61"', 'stop-color="' + c.sky3 + '"')
+                             .replace('<ellipse cx="120" cy="190"', '<g transform="' + c.stones + '"><ellipse cx="120" cy="190"')
+                             .replace('<ellipse cx="228" cy="200" rx="38" ry="13" fill="#f1f5f9"/>', '<ellipse cx="228" cy="200" rx="38" ry="13" fill="#f1f5f9"/></g>')
+                             .replace('<polygon points="280,125 320,105 360,125" fill="#334155"/>', '<g transform="' + c.house + '"><polygon points="280,125 320,105 360,125" fill="#334155"/>')
+                             .replace('<rect x="290" y="125" width="60" height="30" fill="#141c24"/>', '<rect x="290" y="125" width="60" height="30" fill="#141c24"/></g>')
+                             .replace('>24MM WIDE<', '>' + c.focal + '<');
+                    return meta(svg, c, take);
+                }
+            },
+            gypsy_caravan: {
+                list: [
+                    { g1:'#1f1f23', g2:'#3f3f46', g3:'#71717a', caravan:'translate(0,0)', lantern:'#fde047', tc:'00:04:15:19', focal:'50MM MED' },
+                    { g1:'#232028', g2:'#43404c', g3:'#6b6474', caravan:'translate(-28,5)', lantern:'#fca5a5', tc:'00:04:21:07', focal:'35MM MED' },
+                    { g1:'#1d2126', g2:'#3a424c', g3:'#64748b', caravan:'translate(24,-4)', lantern:'#a5f3fc', tc:'00:04:26:44', focal:'85MM MED' },
+                    { g1:'#26201f', g2:'#4a4038', g3:'#7a6a58', caravan:'translate(6,9)', lantern:'#fdba74', tc:'00:04:32:12', focal:'50MM T1.4' }
+                ],
+                paint(svg, c, take) {
+                    svg = svg.replace('stop-color="#1f1f23"', 'stop-color="' + c.g1 + '"')
+                             .replace('stop-color="#3f3f46"', 'stop-color="' + c.g2 + '"')
+                             .replace('stop-color="#71717a"', 'stop-color="' + c.g3 + '"')
+                             .replace('<polygon points="60,165 130,85 200,165" fill="#111113" opacity="0.9"/>', '<g transform="' + c.caravan + '"><polygon points="60,165 130,85 200,165" fill="#111113" opacity="0.9"/>')
+                             .replace('<circle cx="178" cy="132" r="6" fill="#fde047" opacity="0.9"/>', '<circle cx="178" cy="132" r="6" fill="' + c.lantern + '" opacity="0.9"/></g>')
+                             .replace('>50MM MED<', '>' + c.focal + '<');
+                    return meta(svg, c, take);
+                }
+            },
+            ice: {
+                list: [
+                    { g1:'#080a0f', g2:'#111827', g3:'#1f2937', ice:'translate(0,0)', glow:'#38bdf8', tc:'00:06:50:02', focal:'85MM MACRO' },
+                    { g1:'#0a0d14', g2:'#0f1d2e', g3:'#27435f', ice:'translate(30,10)', glow:'#818cf8', tc:'00:06:55:28', focal:'100MM MACRO' },
+                    { g1:'#070b12', g2:'#1a1626', g3:'#3b2f5c', ice:'translate(-26,-8)', glow:'#22d3ee', tc:'00:07:01:13', focal:'65MM MACRO' },
+                    { g1:'#0b0910', g2:'#14202a', g3:'#2a4a3e', ice:'translate(10,-14)', glow:'#60a5fa', tc:'00:07:06:47', focal:'85MM MACRO' }
+                ],
+                paint(svg, c, take) {
+                    svg = svg.replace('stop-color="#080a0f"', 'stop-color="' + c.g1 + '"')
+                             .replace('stop-color="#111827"', 'stop-color="' + c.g2 + '"')
+                             .replace('stop-color="#1f2937"', 'stop-color="' + c.g3 + '"')
+                             .replace('<polygon points="200,60 260,95 240,165 160,165 140,95" fill="#e0f2fe" opacity="0.92"/>', '<g transform="' + c.ice + '"><polygon points="200,60 260,95 240,165 160,165 140,95" fill="#e0f2fe" opacity="0.92"/>')
+                             .replace('<circle cx="200" cy="115" r="45" fill="#38bdf8" opacity="0.25"/>', '<circle cx="200" cy="115" r="45" fill="' + c.glow + '" opacity="0.25"/></g>')
+                             .replace('>85MM MACRO<', '>' + c.focal + '<');
+                    return meta(svg, c, take);
+                }
+            }
+        };
+
+        function meta(svg, c, take) {
+            return svg.replace(/monospace">\d{2}:\d{2}:\d{2}:\d{2}</, 'monospace">' + c.tc + '<')
+                      .replace('MJ v6.0</text>', 'MJ v6.0 · ' + take + '</text>');
+        }
+
+        function applySceneVariant(svg, theme, variant) {
+            const pack = sceneVariants[theme] || sceneVariants.ice;
+            const c = pack.list[((variant % 4) + 4) % 4];
+            const take = 'T' + String(variant).padStart(2, '0');
+            return pack.paint(svg, c, take);
+        }
+
+        function createSceneVisualStyled(theme, isGen, variant) {
+            const base = createSceneVisual(theme, isGen);
+            if (!isGen || !variant) return base;
+            return applySceneVariant(base, theme, variant);
+        }
+
+        function renderScenes() {
+            const container = document.getElementById('sceneContainer');
+            container.innerHTML = '';
+            document.getElementById('activeProjTitle').value = currentProject.name;
+            document.getElementById('sceneCountBadge').innerText = currentProject.scenes.length + ' 幕分镜';
+
+            currentProject.scenes.forEach((s, i) => {
+                const card = document.createElement('div');
+                card.className = 'scene-card';
+                card.innerHTML = `
+                    <div class="scene-gutter">
+                        <button class="gutter-btn" onclick="moveScene(${i}, -1)" title="上移">▲</button>
+                        <button class="gutter-btn" onclick="moveScene(${i}, 1)" title="下移">▼</button>
+                    </div>
+                    <div class="scene-content">
+                        <div class="scene-meta-row">
+                            <div class="scene-idx-tag">
+                                <span>#0${i + 1}</span>
+                                <b>剧情分镜节点</b>
+                            </div>
+                            <span style="font-size:9px; color:var(--ink-muted); font-family:var(--font-mono);">PROMPT LOCKED</span>
+                        </div>
+                        <label>原著文稿片段</label>
+                        <textarea onchange="updateScene(${i}, 'original', this.value)">${s.original}</textarea>
+                        <label>Prompt 镜头指令</label>
+                        <textarea class="prompt-box" onchange="updateScene(${i}, 'prompt', this.value)">${s.prompt}</textarea>
+                    </div>
+                    <div class="scene-frame" id="media-box-${i}">
+                        <div class="frame-aspect-box" id="media-preview-${i}">
+                            ${createSceneVisualStyled(s.svgTheme || 'firing_squad', s.generated, s.variant || 0)}
+                        </div>
+                        <div class="frame-ctrl-row">
+                            <button class="btn btn-outline btn-gen-sm" onclick="generateOne(${i})">
+                                ${s.generated ? '🔄 重新渲染' : '🚀 渲染'}
+                            </button>
+                            <button class="scene-del-sm" onclick="deleteScene(${i})" title="删除此分镜">✕</button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function moveScene(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= currentProject.scenes.length) return;
+            const temp = currentProject.scenes[index];
+            currentProject.scenes[index] = currentProject.scenes[newIndex];
+            currentProject.scenes[newIndex] = temp;
+            renderScenes();
+        }
+
+        function deleteScene(index) {
+            if (currentProject.scenes.length <= 1) {
+                alert('请至少保留一个分镜');
+                return;
+            }
+            currentProject.scenes.splice(index, 1);
+            renderScenes();
+        }
+
+        function addManualScene() {
+            currentProject.scenes.push({
+                original: "手动添加情节：暴风雨降临马孔多，主角伫立在晨光中...",
+                prompt: "Cinematic portrait shot, hero standing in gale, anamorphic lens, 8k --ar 16:9 --v 6.0",
+                svgTheme: "firing_squad",
+                generated: false
+            });
+            renderScenes();
+        }
+
+        function updateScene(i, field, val) {
+            currentProject.scenes[i][field] = val;
+        }
+
+        function renameProjectDirectly(val) {
+            currentProject.name = val;
+        }
+
+        function analyzeScript() {
+            const btn = document.getElementById('analyzeBtn');
+            btn.innerText = '⚡ 正在调用 LLM 拆分中...';
+            btn.style.opacity = '0.6';
+            setTimeout(() => {
+                btn.innerText = '⚡ 智能拆分分镜序列';
+                btn.style.opacity = '1';
+                alert('✅ 文稿拆解完成！已生成 4 组影视分镜卡片与镜头 Prompt。');
+                renderScenes();
+            }, 500);
+        }
+
+        function generateExpertPrompt() {
+            const btn = document.getElementById('helperBtn');
+            const res = document.getElementById('helperRes');
+            btn.innerText = '🪄 镜头生成中...';
+            setTimeout(() => {
+                btn.innerText = '🪄 转为电影级 Prompt';
+                res.innerText = "Masterpiece cinematic wide shot, misty Colombian river at dawn, giant smooth polished white stones, magical realism, anamorphic flare, Unreal Engine 5 render, 8k --ar 16:9 --v 6.0";
+            }, 400);
+        }
+
+        function copyHelperRes() {
+            const text = document.getElementById('helperRes').innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('提示词已复制到剪贴板');
+            });
+        }
+
+        async function generateOne(index) {
+            const s = currentProject.scenes[index];
+            const media = document.getElementById('media-preview-' + index);
+            const nextTake = s.generated ? (s.variant || 1) + 1 : 1;
+            media.innerHTML = `<div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; gap:8px;">
+                <div class="loading-spin"></div>
+                <span style="font-family:var(--font-mono); font-size:9px; color:var(--ink-muted); letter-spacing:.12em;">RENDERING · TAKE ${String(nextTake).padStart(2, '0')}</span>
+            </div>`;
+
+            return new Promise(resolve => {
+                setTimeout(() => {
+                    s.variant = nextTake;
+                    s.generated = true;
+                    media.innerHTML = createSceneVisualStyled(s.svgTheme || 'firing_squad', true, s.variant);
+                    resolve(true);
+                }, 700);
+            });
+        }
+
+        async function generateAll() {
+            for (let i = 0; i < currentProject.scenes.length; i++) {
+                await generateOne(i);
+            }
+            alert('🎉 全部分镜批量渲染完成！');
+        }
+
+        function renderProjectManager() {
+            const grid = document.getElementById('projectGrid');
+            grid.innerHTML = '';
+            projects.forEach(p => {
+                const item = document.createElement('div');
+                item.className = 'project-card-item' + (p.id === currentProject.id ? ' active' : '');
+                item.innerHTML = `
+                    <div>
+                        <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+                            <strong style="font-size:12px; color:var(--ink);">${p.name}</strong>
+                            ${p.id === currentProject.id ? '<span style="font-size:8.5px; background:var(--ink); color:#fff; padding:1px 4px; border-radius:3px;">当前</span>' : ''}
+                        </div>
+                        <div style="font-size:9.5px; color:var(--ink-muted); margin-top:4px; font-family:var(--font-mono);">
+                            ${p.scenes.length} 幕分镜 · ${p.time}
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:4px; margin-top:8px;">
+                        <button class="btn btn-outline" style="flex:1; padding:3.5px 5px; font-size:9.5px;" onclick="switchProject('${p.id}')">打开</button>
+                        <button class="btn btn-outline" style="padding:3.5px 6px; font-size:9.5px; color:#ef4444;" onclick="deleteProject('${p.id}')">删除</button>
+                    </div>
+                `;
+                grid.appendChild(item);
+            });
+        }
+
+        function switchProject(id) {
+            currentProject = projects.find(p => p.id === id) || projects[0];
+            showPage('workstation');
+            renderScenes();
+        }
+
+        function deleteProject(id) {
+            if (projects.length <= 1) {
+                alert('请至少保留一个项目');
+                return;
+            }
+            projects = projects.filter(p => p.id !== id);
+            if (currentProject.id === id) currentProject = projects[0];
+            renderProjectManager();
+        }
+
+        function createNewProject() {
+            const name = prompt('请输入新项目名称:', '《新书拆解·剧集分镜》');
+            if (!name) return;
+            const newProj = {
+                id: 'proj_' + Date.now(),
+                name: name,
+                time: new Date().toLocaleString(),
+                scenes: [
+                    { original: '第 1 幕：故事开篇场景...', prompt: 'Establishing shot, 8k --ar 16:9 --v 6.0', svgTheme: 'river_village', generated: true }
+                ]
+            };
+            projects.unshift(newProj);
+            currentProject = newProj;
+            showPage('workstation');
+            renderScenes();
+        }
+
+        window.onload = () => {
+            renderScenes();
+        };
+    </script>
+</body>
+</html>

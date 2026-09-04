@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A'GAIN — Regenerative Sensory Rituals Born from Upcycled Coffee</title>
+  <link href="https://fonts.cdnfonts.com/css/century-gothic" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              bg: '#F8F7F5',
+              'bg-alt': '#F2EEE9',
+              dark: '#191919',
+              'dark-soft': '#2A2928',
+              forest: '#0F3020',
+              'forest-light': '#1C4A33',
+              terracotta: '#B67352',
+              sand: '#E7E1D7',
+              muted: '#7A7570',
+              border: '#E5DFD5'
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    *, *::before, *::after, html, body, h1, h2, h3, h4, h5, h6, p, span, button, input, textarea, a, select {
+      font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif !important;
+    }
+    body {
+      background-color: #F8F7F5;
+      color: #191919;
+      overflow-x: hidden;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #F8F7F5; }
+    ::-webkit-scrollbar-thumb { background: #D9D2C7; border-radius: 3px; }
+    .img-zoom { transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+    .img-zoom:hover { transform: scale(1.04); }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-dark antialiased selection:bg-brand-forest selection:text-white">
+
+  <!-- NAVBAR -->
+  <header id="navbar" class="fixed top-0 left-0 right-0 z-40 bg-brand-bg/90 backdrop-blur-md border-b border-brand-border/60 py-3 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <nav class="hidden md:flex items-center space-x-6 text-[11px] tracking-widest uppercase font-semibold text-brand-dark/80">
+        <a href="#collection" class="hover:text-brand-forest transition-colors">Collection</a>
+        <a href="#circularity" class="hover:text-brand-forest transition-colors">Upcycled Process</a>
+        <a href="#materials" class="hover:text-brand-forest transition-colors">Eco Packaging</a>
+        <a href="#community" class="hover:text-brand-forest transition-colors">B2B & ESG</a>
+      </nav>
+
+      <!-- Center Logo -->
+      <div class="flex flex-col items-center">
+        <a href="#" class="flex flex-col items-center group">
+          <img src="global-demo/assets/brand/again-logo.png" alt="A'GAIN" class="h-6 sm:h-7 w-auto object-contain transition-transform group-hover:scale-105" />
+          <span class="text-[9px] uppercase tracking-[0.25em] text-brand-muted mt-1">L'odeur de la Terre</span>
+        </a>
+      </div>
+
+      <!-- Right Actions: Brand Inquiry -->
+      <div class="flex items-center space-x-3">
+        <a href="#community" class="px-4 py-1.5 rounded-full text-xs uppercase tracking-wider font-semibold bg-brand-forest text-white hover:bg-brand-forest-light transition-all shadow-sm">
+          Studio & ESG
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION WITH PURE AUTO-LOOPING LIVE CARD -->
+  <section class="relative min-h-[90vh] flex flex-col justify-between pt-28 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div class="flex items-center gap-2 mb-4">
+      <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] tracking-widest uppercase font-semibold bg-brand-forest/10 text-brand-forest border border-brand-forest/20">
+        ✦ Circular Beauty & Fragrance Pioneer
+      </span>
+      <span class="text-xs text-brand-muted font-mono tracking-wider hidden sm:inline">EST. 2024 · SHANGHAI / GLOBAL</span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center flex-grow">
+      <div class="lg:col-span-7 space-y-6">
+        <div class="space-y-2">
+          <p class="text-xs uppercase tracking-[0.3em] text-brand-muted font-semibold">L'odeur de la Terre · Mindful Living</p>
+          <h1 class="text-3xl sm:text-5xl lg:text-6xl text-brand-dark leading-[1.1] tracking-tight font-normal">
+            Regenerative <br />
+            <span class="text-brand-forest font-semibold">Sensory Rituals</span> <br />
+            from Upcycled Coffee.
+          </h1>
+        </div>
+
+        <p class="text-sm sm:text-base text-brand-dark/75 font-light leading-relaxed max-w-xl">
+          We close the loop on specialty coffee waste—transforming nutrient-rich grounds into nourishing skin bars, porous mineral spatial diffusers, botanical oils, and curated gift sets.
+        </p>
+
+        <div class="flex flex-wrap items-center gap-3 pt-2">
+          <a href="#collection" class="px-6 py-3 bg-brand-dark text-white hover:bg-brand-forest text-xs uppercase tracking-widest font-semibold rounded-full transition-all shadow hover:shadow-lg">
+            Explore Collection ↓
+          </a>
+          <a href="#circularity" class="px-5 py-3 text-xs uppercase tracking-widest font-semibold text-brand-dark border border-brand-dark/20 hover:border-brand-forest rounded-full transition-all">
+            The Circular Loop
+          </a>
+        </div>
+      </div>
+
+      <!-- 右侧：短时 Live 动态转场 (纯净自动循环播放，无多余标签) -->
+      <div class="lg:col-span-5 relative">
+        <div class="relative overflow-hidden rounded-2xl border border-brand-border shadow-xl bg-brand-bg-alt aspect-[3/4] w-full">
+          
+          <!-- 4 阶 Live 图像层 (平滑渐变自交替) -->
+          <div id="live-stage-container" class="relative w-full h-full overflow-hidden">
+            <img id="live-img-0" src="global-demo/assets/live/scent_1_gaurigvong.webp" alt="01 Gauri Gvong" style="object-position: center 18%;" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-100 z-10" />
+            <img id="live-img-1" src="global-demo/assets/live/scent_2_parana.webp" alt="02 Paraná" style="object-position: center 18%;" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 z-0" />
+            <img id="live-img-2" src="global-demo/assets/live/scent_3_genika.webp" alt="03 Genika" style="object-position: center 18%;" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 z-0" />
+            <img id="live-img-3" src="global-demo/assets/live/scent_4_mounthuye.webp" alt="04 Mount Huye" style="object-position: center 18%;" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 opacity-0 z-0" />
+          </div>
+
+          <!-- 底部卡片：全身永续 高阶表达 (纯英文无中文) -->
+          <div class="absolute bottom-4 left-4 right-4 z-20 p-3.5 sm:p-4 rounded-xl bg-white/92 backdrop-blur-md border border-white/70 shadow-lg flex items-center justify-between">
+            <div>
+              <div class="flex items-center gap-1.5 mb-0.5">
+                <span class="w-2 h-2 rounded-full bg-brand-forest animate-pulse"></span>
+                <p class="text-[10px] tracking-[0.22em] uppercase font-bold text-brand-forest">Holistic Regenerative Care</p>
+              </div>
+              <p id="live-stage-desc" class="text-xs sm:text-[13px] font-bold text-brand-dark transition-all duration-300">
+                01 · Gauri Gvong
+              </p>
+            </div>
+            <span class="text-[10px] font-mono font-bold bg-brand-forest/10 text-brand-forest px-2.5 py-1 rounded-full border border-brand-forest/20 whitespace-nowrap">
+              100% Circular
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Trust Badges -->
+    <div class="pt-8 mt-6 border-t border-brand-border/60 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+      <div class="flex items-center gap-2">
+        <div class="p-2 rounded-full bg-brand-forest/10 text-brand-forest">✓</div>
+        <div>
+          <p class="font-bold text-brand-dark">100% Upcycled Coffee</p>
+          <p class="text-[10px] text-brand-muted">Specialty Arabica Bio-Lipids</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="p-2 rounded-full bg-brand-forest/10 text-brand-forest">✓</div>
+        <div>
+          <p class="font-bold text-brand-dark">Plastic-Neutral</p>
+          <p class="text-[10px] text-brand-muted">Compostable Seaweed Paper</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="p-2 rounded-full bg-brand-forest/10 text-brand-forest">✓</div>
+        <div>
+          <p class="font-bold text-brand-dark">Cruelty-Free & Pure</p>
+          <p class="text-[10px] text-brand-muted">Zero Synthetic Phthalates</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <div class="p-2 rounded-full bg-brand-forest/10 text-brand-forest">✓</div>
+        <div>
+          <p class="font-bold text-brand-dark">Mindfully Crafted</p>
+          <p class="text-[10px] text-brand-muted">Sound Bath & Zen Approved</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ESG IMPACT COUNTER -->
+  <section class="bg-brand-bg-alt border-y border-brand-border py-14 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+        <div>
+          <span class="text-[10px] tracking-[0.25em] uppercase font-bold text-brand-forest block mb-1">
+            🌿 Verified Circular Impact · ESG Metrics
+          </span>
+          <h2 class="text-2xl sm:text-3xl text-brand-dark">Every bean reclaimed is an act of earth renewal.</h2>
+        </div>
+        <p class="text-xs text-brand-muted max-w-md font-light">
+          In traditional consumption, 99.8% of coffee nutrients are dumped in landfills. We capture this vital energy for daily skin & soul nourishment.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div class="bg-white p-5 rounded-xl border border-brand-border/80 shadow-sm">
+          <div class="text-3xl font-bold text-brand-dark mb-1">1,480</div>
+          <p class="text-[11px] uppercase tracking-wider font-bold text-brand-forest">Reclaimed Coffee Waste (kg)</p>
+          <p class="text-[11px] text-brand-muted mt-1">Diverted from urban landfills to date</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-brand-border/80 shadow-sm">
+          <div class="text-3xl font-bold text-brand-dark mb-1">3,250</div>
+          <p class="text-[11px] uppercase tracking-wider font-bold text-brand-forest">CO₂ Emissions Offset (kg)</p>
+          <p class="text-[11px] text-brand-muted mt-1">Greenhouse gas equivalent avoided</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-brand-border/80 shadow-sm">
+          <div class="text-3xl font-bold text-brand-dark mb-1">100%</div>
+          <p class="text-[11px] uppercase tracking-wider font-bold text-brand-forest">Circular Bio-Formula</p>
+          <p class="text-[11px] text-brand-muted mt-1">Biodegradable, microplastic-free ingredients</p>
+        </div>
+        <div class="bg-white p-5 rounded-xl border border-brand-border/80 shadow-sm">
+          <div class="text-3xl font-bold text-brand-dark mb-1">48+</div>
+          <p class="text-[11px] uppercase tracking-wider font-bold text-brand-forest">Mindful Studios</p>
+          <p class="text-[11px] text-brand-muted mt-1">Sound bath, yoga & zen collaborations</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCT COLLECTION (ALL 3 SERIES SHOWN WITH REFINED EDITORIAL LAYOUT) -->
+  <section id="collection" class="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <!-- Header with Single-Line Title -->
+    <div class="text-center max-w-4xl mx-auto mb-10 space-y-2">
+      <span class="px-3 py-1 rounded-full text-[10px] tracking-widest uppercase font-bold bg-brand-forest/10 text-brand-forest">
+        The Curated Circular Collection
+      </span>
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl text-brand-dark whitespace-nowrap overflow-x-auto">Sensory Formulations for Body & Space</h2>
+      <p class="text-xs sm:text-sm text-brand-muted font-light">
+        Handcrafted in small batches, blending bio-reclaimed coffee with therapeutic botanicals.
+      </p>
+    </div>
+
+    <!-- Category Filter Tabs (Pure English) -->
+    <div class="flex items-center justify-center gap-2 mb-12 flex-wrap">
+      <button onclick="filterCategory('all')" id="tab-all" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-brand-dark text-white shadow-sm transition-all">
+        All Collections
+      </button>
+      <button onclick="filterCategory('recoffee')" id="tab-recoffee" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white border border-brand-border text-brand-muted hover:text-brand-dark transition-all">
+        Recoffee Series
+      </button>
+      <button onclick="filterCategory('reflora')" id="tab-reflora" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white border border-brand-border text-brand-muted hover:text-brand-dark transition-all">
+        ReFlora Botanicals
+      </button>
+      <button onclick="filterCategory('giftsets')" id="tab-giftsets" class="cat-filter-btn px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-white border border-brand-border text-brand-muted hover:text-brand-dark transition-all">
+        Ritual Gift Sets
+      </button>
+    </div>
+
+    <!-- Structured Product Showcase Container -->
+    <div id="product-container" class="space-y-14"></div>
+  </section>
+
+  <!-- SUSTAINABLE MATERIALS SHOWCASE -->
+  <section id="materials" class="py-16 bg-white border-y border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-10">
+        <span class="px-3 py-1 rounded-full text-[10px] tracking-widest uppercase font-bold bg-brand-forest/10 text-brand-forest block mb-2 w-fit">
+          Sustainable Bio-Materials
+        </span>
+        <h2 class="text-2xl sm:text-3xl lg:text-4xl text-brand-dark">100% Biodegradable Seaweed Packaging</h2>
+        <p class="text-xs sm:text-sm text-brand-muted mt-2">
+          We replace single-use plastic with regenerative kelp fibers and coffee chaff pulp—decomposing naturally in soil within 12 weeks.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-brand-bg rounded-2xl overflow-hidden border border-brand-border p-4 flex flex-col justify-between">
+          <div class="rounded-xl overflow-hidden aspect-[4/3] bg-brand-bg-alt mb-3">
+            <img src="global-demo/assets/materials/seaweed_box_c.webp" alt="Seaweed Molded Box" class="w-full h-full object-cover img-zoom" />
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-brand-forest font-bold uppercase">Material 01</span>
+            <h3 class="text-base font-bold text-brand-dark mt-0.5">Molded Seaweed Pulp Box</h3>
+            <p class="text-xs text-brand-muted mt-1 leading-relaxed">Compressed coastal kelp fibers combined with coffee residue, providing shock-resistant protection with zero chemical adhesives.</p>
+          </div>
+        </div>
+
+        <div class="bg-brand-bg rounded-2xl overflow-hidden border border-brand-border p-4 flex flex-col justify-between">
+          <div class="rounded-xl overflow-hidden aspect-[4/3] bg-brand-bg-alt mb-3">
+            <img src="global-demo/assets/materials/db1.jpg" alt="Coffee Chaff Cushion" class="w-full h-full object-cover img-zoom" />
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-brand-forest font-bold uppercase">Material 02</span>
+            <h3 class="text-base font-bold text-brand-dark mt-0.5">Porous Bio-Cellulose Cushioning</h3>
+            <p class="text-xs text-brand-muted mt-1 leading-relaxed">Fibers structured into honeycomb shock absorbers. 100% home compostable and water-soluble.</p>
+          </div>
+        </div>
+
+        <div class="bg-brand-bg rounded-2xl overflow-hidden border border-brand-border p-4 flex flex-col justify-between">
+          <div class="rounded-xl overflow-hidden aspect-[4/3] bg-brand-bg-alt mb-3">
+            <img src="global-demo/assets/materials/ds1_c.webp" alt="Organic Linen Pouch" class="w-full h-full object-cover img-zoom" />
+          </div>
+          <div>
+            <span class="text-[10px] font-mono text-brand-forest font-bold uppercase">Material 03</span>
+            <h3 class="text-base font-bold text-brand-dark mt-0.5">Reusable Botanical Linen Bags</h3>
+            <p class="text-xs text-brand-muted mt-1 leading-relaxed">Dyed with natural coffee residue extract, each pouch is reusable for daily essentials and travel accessories.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CIRCULAR PROCESS -->
+  <section id="circularity" class="py-20 bg-brand-bg-alt border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-2xl mb-12">
+        <span class="px-3 py-1 rounded-full text-[10px] tracking-widest uppercase font-bold bg-brand-forest/10 text-brand-forest block mb-2 w-fit">
+          The Closed-Loop Craft
+        </span>
+        <h2 class="text-3xl sm:text-4xl text-brand-dark">From Café Grounds to Earth-Friendly Luxury.</h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm flex flex-col justify-between">
+          <div>
+            <img src="global-demo/assets/story/coffee-grounds.jpg" alt="Collection" class="w-full aspect-[4/3] object-cover" />
+            <div class="p-5 space-y-2">
+              <span class="text-[10px] uppercase tracking-wider text-brand-forest font-bold block">01 / SOURCING</span>
+              <h3 class="text-lg font-bold text-brand-dark">Direct Specialty Café Collection</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">We partner with artisanal espresso bars to collect fresh organic coffee grounds within 4 hours of brewing.</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <span class="text-[11px] text-brand-forest font-semibold">✓ Zero Waste from 12+ Partner Roasters</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm flex flex-col justify-between">
+          <div>
+            <img src="global-demo/assets/story/artisan-craft.jpg" alt="Bio-Refining" class="w-full aspect-[4/3] object-cover" />
+            <div class="p-5 space-y-2">
+              <span class="text-[10px] uppercase tracking-wider text-brand-forest font-bold block">02 / BIO-REFINING</span>
+              <h3 class="text-lg font-bold text-brand-dark">Gentle Bio-Micronization</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Solar-powered micro-milling converts rough grounds into silky exfoliating particles and cold-extracted coffee oil.</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <span class="text-[11px] text-brand-forest font-semibold">✓ 100% Solvent-Free Pure Extraction</span>
+          </div>
+        </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden border border-brand-border shadow-sm flex flex-col justify-between">
+          <div>
+            <img src="global-demo/assets/story/eco-packaging_c.webp" alt="Artisan Infusion" class="w-full aspect-[4/3] object-cover" />
+            <div class="p-5 space-y-2">
+              <span class="text-[10px] uppercase tracking-wider text-brand-forest font-bold block">03 / MINDFUL INFUSION</span>
+              <h3 class="text-lg font-bold text-brand-dark">Slow Artisan Fragrance Infusion</h3>
+              <p class="text-xs text-brand-muted leading-relaxed">Refined botanicals are blended with pure plant oils and poured into reusable ceramics and compostable seaweed boxes.</p>
+            </div>
+          </div>
+          <div class="p-5 pt-0">
+            <span class="text-[11px] text-brand-forest font-semibold">✓ Handcrafted in Small Batches</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMMUNITY & B2B -->
+  <section id="community" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div class="bg-brand-forest text-white rounded-3xl p-8 sm:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-8 space-y-4">
+        <p class="text-xl sm:text-2xl font-light leading-relaxed">
+          “A'GAIN's ReCoffee rituals introduced a transcendent olfactive dimension to our singing bowl sound baths. The grounded aroma helps participants detach from urban anxiety within minutes.”
+        </p>
+        <div>
+          <p class="font-bold text-base">Jerry</p>
+          <p class="text-xs text-brand-sand">Founder of EYJA Sound Meditation Studio · Shanghai & Tokyo</p>
+        </div>
+      </div>
+      <div class="lg:col-span-4 flex justify-center">
+        <img src="global-demo/assets/story/candle-lit.jpg" alt="Sound Bath" class="rounded-2xl w-full max-w-xs aspect-[4/3] object-cover border border-white/20" />
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-brand-dark text-white py-14 border-t border-brand-dark-soft">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div class="flex items-center gap-3">
+        <img src="global-demo/assets/brand/again-logo.png" alt="A'GAIN" class="h-6 w-auto object-contain brightness-0 invert" />
+        <span class="text-xs text-brand-sand">L'odeur de la Terre · Circular Wellness</span>
+      </div>
+      <p class="text-xs text-white/50">© 2026 A'GAIN Circular Living. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- SCENT NOTES MODAL -->
+  <div id="scent-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm hidden items-center justify-center p-4">
+    <div class="bg-white max-w-2xl w-full rounded-2xl p-6 sm:p-8 relative max-h-[85vh] overflow-y-auto border border-brand-border space-y-5" onclick="event.stopPropagation()">
+      <button onclick="closeModal()" class="absolute top-4 right-4 text-brand-dark hover:text-brand-forest text-lg font-bold">✕</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT DATA & LOGIC -->
+  <script>
+    // 1. LIVE HERO 4-STAGE AUTO-LOOP LOGIC (PURE ENGLISH)
+    const LIVE_STAGES = [
+      {
+        title: '01 · Gauri Gvong',
+        kicker: 'Holistic Regenerative Care'
+      },
+      {
+        title: '02 · Paraná',
+        kicker: 'Sensory Daily Infusion'
+      },
+      {
+        title: '03 · Genika',
+        kicker: 'Closed-Loop Bio-Nutrients'
+      },
+      {
+        title: '04 · Mount Huye',
+        kicker: 'Holistic Circular Regeneration'
+      }
+    ];
+
+    let currentLiveStage = 0;
+    let liveInterval = null;
+
+    function setLiveStage(idx) {
+      currentLiveStage = idx;
+      for (let i = 0; i < 4; i++) {
+        const img = document.getElementById('live-img-' + i);
+        if (img) {
+          if (i === idx) {
+            img.style.opacity = '1';
+            img.style.zIndex = '10';
+          } else {
+            img.style.opacity = '0';
+            img.style.zIndex = '0';
+          }
+        }
+      }
+      const descEl = document.getElementById('live-stage-desc');
+      if (descEl) {
+        descEl.textContent = LIVE_STAGES[idx].title;
+      }
+    }
+
+    function startLiveLoop() {
+      if (liveInterval) clearInterval(liveInterval);
+      liveInterval = setInterval(() => {
+        const next = (currentLiveStage + 1) % 4;
+        setLiveStage(next);
+      }, 2600);
+    }
+
+    // 2. SERIES DEFINITION & PRODUCTS DATABASE
+    const CATEGORIES = [
+      {
+        id: 'recoffee',
+        title: 'Recoffee Series',
+        subtitle: 'Bio-upcycled specialty coffee formulations for body & space'
+      },
+      {
+        id: 'reflora',
+        title: 'ReFlora Botanicals',
+        subtitle: 'Therapeutic essential oils & cold-distilled spatial mists'
+      },
+      {
+        id: 'giftsets',
+        title: 'Ritual Gift Sets',
+        subtitle: 'Curated limited-edition regimens in 100% compostable seaweed packaging'
+      }
+    ];
+
+    const PRODUCTS = [
+      // 1. Recoffee Series
+      {
+        id: 'soap',
+        category: 'recoffee',
+        categoryName: 'Recoffee Series',
+        name: 'ReCoffee Exfoliating Goat Milk Bar',
+        subtitle: 'Micro-ground Arabica Grounds & Fresh Alpine Goat Milk',
+        image: 'global-demo/assets/products/recoffee/coffee_com.jpg',
+        badge: '18% Upcycled',
+        price: '$18.00',
+        weight: '120g / 4.2 oz',
+        top: ['Roasted Arabica Bean', 'Sweet Bergamot'],
+        heart: ['Alpine Milk Cream', 'Cacao Husk'],
+        base: ['Earthy Amber', 'Sandalwood'],
+        mood: 'Awakening, Grounding & Restorative',
+        ritual: 'Lather into rich cream during morning shower. Massage in circular motions to awaken microcirculation.'
+      },
+      {
+        id: 'tablet',
+        category: 'recoffee',
+        categoryName: 'Recoffee Series',
+        name: 'Cocoa Aroma Mineral Tablet Set',
+        subtitle: 'Porous Coffee Fiber & Natural Mineral Spatial Diffusers',
+        image: 'global-demo/assets/products/recoffee/blanc.jpg',
+        badge: '45% Bio-Reclaimed',
+        price: '$28.00',
+        weight: 'Set of 4 Tablets + 10ml Blend',
+        top: ['Wild Juniper', 'Smoked Espresso'],
+        heart: ['Grey Mountain Cedar', 'Vetiver Root'],
+        base: ['Smoked Birch', 'Mossy Oak'],
+        mood: 'Deep Focus, Quietude & Mental Clarity',
+        ritual: 'Apply 3-5 drops of botanical elixir directly onto tablet. Place on work desk or bedside table.'
+      },
+      {
+        id: 'candle',
+        category: 'recoffee',
+        categoryName: 'Recoffee Series',
+        name: 'Paraná Botanical Soy Candle',
+        subtitle: 'Reclaimed Coffee Oil & Clean Soy Wax in Ceramic Cup',
+        image: 'global-demo/assets/products/recoffee/candle_1.jpg',
+        badge: '12% Coffee Oil',
+        price: '$42.00',
+        weight: '260g (55h Burn Time)',
+        top: ['Crushed Coffee Blossom', 'Citrus Peel'],
+        heart: ['Dark Roasted Mocha', 'Tonka Bean'],
+        base: ['Smoky Vetiver', 'Aged Patchouli'],
+        mood: 'Soul-Soothing, Meditative & Warm Sanctuary',
+        ritual: 'Trim cotton wick to 5mm before lighting. Pair with evening breathwork or journaling.'
+      },
+
+      // 2. ReFlora Botanicals
+      {
+        id: 'oil-seijaku',
+        category: 'reflora',
+        categoryName: 'ReFlora Botanicals',
+        name: 'Seijaku Calming Botanical Oil',
+        subtitle: 'Pure Hinoki Wood, Ancient Frankincense & Wild Clary Sage',
+        image: 'global-demo/assets/products/reflora/seijaku_oil_front_c.webp',
+        badge: '100% Pure Botanical',
+        price: '$38.00',
+        weight: '15ml / 0.5 fl oz',
+        top: ['Calabrian Bergamot', 'Elemi Resin'],
+        heart: ['Japanese Hinoki Wood', 'Frankincense'],
+        base: ['Atlas Cedar', 'Earth Moss'],
+        mood: 'Profound Stillness, Grounding & Sleep Support',
+        ritual: 'Rub 1-2 drops between warm palms. Cup over nose and take deep calming breaths before meditation.'
+      },
+      {
+        id: 'oil-sunyata',
+        category: 'reflora',
+        categoryName: 'ReFlora Botanicals',
+        name: 'Sunyata Meditative Spatial Oil',
+        subtitle: 'Sacred Sandalwood, Smoky Vetiver & Bitter Petitgrain',
+        image: 'global-demo/assets/products/reflora/sunyata_oil_front_c.webp',
+        badge: 'Zen Ritual Formula',
+        price: '$38.00',
+        weight: '15ml / 0.5 fl oz',
+        top: ['Petitgrain Bigarade', 'Cardamom'],
+        heart: ['Mysore Sandalwood', 'White Lotus'],
+        base: ['Haitian Vetiver', 'Ancient Moss'],
+        mood: 'Clarity, Mental Detachment & Zen Focus',
+        ritual: 'Diffuser drops or wrist application during yoga and tea rituals.'
+      },
+      {
+        id: 'spray-reflora',
+        category: 'reflora',
+        categoryName: 'ReFlora Botanicals',
+        name: 'ReFlora Atmosphere & Pillow Mist',
+        subtitle: 'French Lavender, Himalayan Cedarwood & Clary Sage Water',
+        image: 'global-demo/assets/products/reflora/spray_1_c.webp',
+        badge: 'Natural Distillation',
+        price: '$32.00',
+        weight: '100ml / 3.4 fl oz',
+        top: ['High-Altitude Lavender', 'Chamomile'],
+        heart: ['Himalayan Cedarwood', 'Clary Sage'],
+        base: ['Haitian Vetiver', 'Frankincense'],
+        mood: 'Restorative Sleep & Ambient Tranquility',
+        ritual: 'Mist 3-4 pumps across pillows and linen 10 minutes prior to sleep.'
+      },
+
+      // 3. Ritual Gift Sets
+      {
+        id: 'gift-discovery',
+        category: 'giftsets',
+        categoryName: 'Ritual Gift Sets',
+        name: 'The Discovery Ritual Gift Box',
+        subtitle: 'ReCoffee Soap + Cocoa Mineral Tablet + 10ml Botanical Oil',
+        image: 'global-demo/assets/products/giftsets/gift_1.png',
+        badge: 'Limited Edition Box',
+        price: '$88.00',
+        weight: 'Full Regimen Gift Box',
+        top: ['Specialty Coffee Grounds', 'Hinoki'],
+        heart: ['Wild Botanicals', 'Alpine Cream'],
+        base: ['Sandalwood', 'Earth Amber'],
+        mood: 'The Complete Earth & Mindful Ritual Experience',
+        ritual: 'Encased in 100% biodegradable seaweed molded packaging with reusable organic linen pouch.'
+      },
+      {
+        id: 'gift-morning',
+        category: 'giftsets',
+        categoryName: 'Ritual Gift Sets',
+        name: 'Morning Awakening Regimen Set',
+        subtitle: 'Handmade Coffee Soap + Porous Cocoa Tablet in Seaweed Box',
+        image: 'global-demo/assets/products/giftsets/gift_2.png',
+        badge: 'Eco Gift Box',
+        price: '$68.00',
+        weight: 'Duet Ritual Box',
+        top: ['Arabica Bio-Lipids', 'Sweet Citrus'],
+        heart: ['Smoked Cocoa', 'Cedarwood'],
+        base: ['Amber', 'Natural Earth'],
+        mood: 'Invigorating Morning Awakening & Spatial Refresh',
+        ritual: 'Ideal luxury gift for sustainable living enthusiasts and design appreciators.'
+      }
+    ];
+
+    let currentFilter = 'all';
+
+    function filterCategory(cat) {
+      currentFilter = cat;
+      document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+        btn.classList.remove('bg-brand-dark', 'text-white', 'shadow-sm');
+        btn.classList.add('bg-white', 'text-brand-muted', 'border', 'border-brand-border');
+      });
+      const activeBtn = document.getElementById('tab-' + cat);
+      if (activeBtn) {
+        activeBtn.classList.remove('bg-white', 'text-brand-muted', 'border', 'border-brand-border');
+        activeBtn.classList.add('bg-brand-dark', 'text-white', 'shadow-sm');
+      }
+      renderProducts();
+    }
+
+    function renderCard(p) {
+      return `
+        <div class="bg-white rounded-2xl p-4 border border-brand-border hover:border-brand-forest transition-all duration-300 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="relative aspect-square w-full rounded-xl overflow-hidden bg-brand-bg mb-3 flex items-center justify-center">
+              <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover img-zoom" loading="lazy" />
+              <span class="absolute top-2.5 left-2.5 bg-brand-forest text-white text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full">${p.badge}</span>
+            </div>
+            <div class="flex justify-between items-baseline mb-1">
+              <span class="text-[10px] uppercase font-mono text-brand-muted">${p.categoryName}</span>
+              <span class="font-bold text-xs text-brand-forest uppercase tracking-wider">${p.price}</span>
+            </div>
+            <h3 class="font-bold text-base text-brand-dark leading-snug">${p.name}</h3>
+            <p class="text-xs text-brand-muted mt-1">${p.subtitle}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-brand-border/60 flex items-center justify-between">
+            <button onclick="openScentModal('${p.id}')" class="w-full py-2 bg-brand-bg hover:bg-brand-forest hover:text-white rounded-xl text-xs uppercase tracking-wider font-bold text-brand-dark transition-all flex items-center justify-center gap-1.5">
+              <span>Explore Olfactive Notes & Ritual</span>
+              <span>→</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('product-container');
+      
+      if (currentFilter === 'all') {
+        // Display all 3 categorized series with distinct editorial sub-headers
+        container.innerHTML = CATEGORIES.map(cat => {
+          const items = PRODUCTS.filter(p => p.category === cat.id);
+          return `
+            <div class="space-y-4">
+              <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-brand-border pb-3 gap-1">
+                <div>
+                  <h3 class="text-xl font-bold text-brand-dark tracking-tight">${cat.title}</h3>
+                  <p class="text-xs text-brand-muted">${cat.subtitle}</p>
+                </div>
+                <span class="text-[10px] font-mono text-brand-forest font-bold uppercase tracking-wider">${items.length} Formulations</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                ${items.map(renderCard).join('')}
+              </div>
+            </div>
+          `;
+        }).join('');
+      } else {
+        const cat = CATEGORIES.find(c => c.id === currentFilter);
+        const items = PRODUCTS.filter(p => p.category === currentFilter);
+        container.innerHTML = `
+          <div class="space-y-4">
+            <div class="flex flex-col sm:flex-row sm:items-baseline justify-between border-b border-brand-border pb-3 gap-1">
+              <div>
+                <h3 class="text-xl font-bold text-brand-dark tracking-tight">${cat ? cat.title : 'Collection'}</h3>
+                <p class="text-xs text-brand-muted">${cat ? cat.subtitle : ''}</p>
+              </div>
+              <span class="text-[10px] font-mono text-brand-forest font-bold uppercase tracking-wider">${items.length} Formulations</span>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              ${items.map(renderCard).join('')}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function openScentModal(id) {
+      const p = PRODUCTS.find(x => x.id === id);
+      if (!p) return;
+      const modal = document.getElementById('scent-modal');
+      const content = document.getElementById('modal-content');
+      content.innerHTML = `
+        <div class="space-y-4">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-[10px] font-mono text-brand-forest font-bold uppercase">${p.categoryName} · ${p.badge}</span>
+              <h3 class="text-xl font-bold text-brand-dark mt-1">${p.name}</h3>
+              <p class="text-xs text-brand-muted">${p.subtitle}</p>
+            </div>
+            <span class="text-xs uppercase font-mono tracking-widest text-brand-forest font-bold bg-brand-forest/10 px-2.5 py-1 rounded-full">${p.price}</span>
+          </div>
+          <div class="p-3 bg-brand-bg rounded-xl border border-brand-border">
+            <p class="text-[11px] font-bold text-brand-forest uppercase tracking-wider">Mood & Emotional Resonance</p>
+            <p class="text-sm italic text-brand-dark mt-0.5">“${p.mood}”</p>
+          </div>
+          <div class="space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-brand-dark">The Olfactive Composition</p>
+            <div class="p-3 bg-brand-bg-alt rounded-lg text-xs space-y-1.5">
+              <p><b class="text-brand-forest font-bold uppercase tracking-wider text-[10px] block">Top Notes (Opening):</b> ${p.top.join(', ')}</p>
+              <p><b class="text-brand-forest font-bold uppercase tracking-wider text-[10px] block">Heart Notes (Core Character):</b> ${p.heart.join(', ')}</p>
+              <p><b class="text-brand-forest font-bold uppercase tracking-wider text-[10px] block">Base Notes (Grounding Aura):</b> ${p.base.join(', ')}</p>
+            </div>
+          </div>
+          <div class="p-3 bg-brand-forest/5 rounded-xl border border-brand-forest/20">
+            <p class="text-[11px] font-bold text-brand-forest uppercase tracking-wider">Daily Usage Ritual</p>
+            <p class="text-xs text-brand-dark/90 mt-1 leading-relaxed">${p.ritual}</p>
+          </div>
+          <button onclick="closeModal()" class="w-full py-2.5 bg-brand-dark hover:bg-brand-forest text-white text-xs uppercase tracking-widest font-bold rounded-xl transition-all">
+            Close & Reflect
+          </button>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('scent-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    window.onclick = function(e) {
+      const scentModal = document.getElementById('scent-modal');
+      if (e.target === scentModal) closeModal();
+    }
+
+    // Initialize
+    renderProducts();
+    startLiveLoop();
+  </script>
+</body>
+</html>

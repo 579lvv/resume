@@ -1,0 +1,9 @@
+{
+  "name": "geo-agent-demo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "GEO-Agent Studio 演示工作台（含本地 LLM 代理）",
+  "scripts": {
+    "start": "node server.js"
+  }
+}

@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>杯签诗生成器</title>
+    <link rel="icon" href="data:," />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section id="accessGate" class="access-gate" aria-label="访问验证">
+        <form id="accessForm" class="access-box">
+          <span class="kicker">PRIVATE PREVIEW</span>
+          <h2>输入访问码</h2>
+          <p>这是内部测试版本。请输入访问码后继续使用。</p>
+          <label class="field">
+            <span>访问码</span>
+            <input id="accessCode" type="password" autocomplete="off" placeholder="请输入访问码" />
+          </label>
+          <button type="submit" class="primary-action">进入测试</button>
+          <p id="accessMessage" class="status-message" role="status"></p>
+        </form>
+      </section>
+
+      <section class="workspace" aria-label="咖啡杯签诗生成器">
+        <aside class="control-panel">
+          <div class="brand-block">
+            <span class="kicker">COFFEE LABEL POET</span>
+            <h1>杯签诗生成器</h1>
+            <p>输入昵称和今日心情，生成适合贴在咖啡杯上的三行诗。</p>
+          </div>
+
+          <form id="poemForm" class="poem-form">
+            <label class="field">
+              <span>昵称</span>
+              <input
+                id="nickname"
+                name="nickname"
+                type="text"
+                maxlength="12"
+                autocomplete="off"
+                placeholder="例如：小雨"
+              />
+            </label>
+
+            <label class="field">
+              <span>今日心情</span>
+              <textarea
+                id="mood"
+                name="mood"
+                maxlength="28"
+                rows="3"
+                placeholder="例如：有点疲惫，但想被温柔接住"
+              >有点疲惫，但想被温柔接住</textarea>
+            </label>
+
+            <div class="field">
+              <span>心情快捷选项</span>
+              <div class="chip-row" role="group" aria-label="心情快捷选项">
+                <button type="button" class="chip is-active" data-mood="心里很平静，想慢慢喝完这杯">平静</button>
+                <button type="button" class="chip" data-mood="今天很开心，想把好运留住">开心</button>
+                <button type="button" class="chip" data-mood="期待新的事情慢慢发生">期待</button>
+                <button type="button" class="chip" data-mood="想把此刻的小满足留住">满足</button>
+                <button type="button" class="chip" data-mood="今天想轻轻松松喝完这杯">轻松</button>
+                <button type="button" class="chip" data-mood="想让思绪清醒一点，慢慢开始">清醒</button>
+                <button type="button" class="chip" data-mood="有点疲惫，但想被温柔接住">疲惫</button>
+                <button type="button" class="chip" data-mood="有些焦虑，需要一点确定感">焦虑</button>
+                <button type="button" class="chip" data-mood="今天进入状态有点慢，想慢慢来">慢热</button>
+                <button type="button" class="chip" data-mood="想带着一点暖意重新出发">重启</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span>诗歌语言</span>
+              <div class="segmented" role="group" aria-label="诗歌语言">
+                <button type="button" class="language-segment is-active" data-language="zh">中文诗</button>
+                <button type="button" class="language-segment" data-language="en">English</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span>诗签风格</span>
+              <div class="segmented" role="group" aria-label="诗签风格">
+                <button type="button" class="segment is-active" data-style="modern">现代</button>
+                <button type="button" class="segment" data-style="classic">古风</button>
+                <button type="button" class="segment" data-style="healing">治愈</button>
+                <button type="button" class="segment" data-style="playful">俏皮</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <span>生成模型</span>
+              <div class="segmented" role="group" aria-label="生成模型">
+                <button type="button" class="model-segment is-active" data-model="deepseek-v4-pro">高质量</button>
+                <button type="button" class="model-segment" data-model="deepseek-v4-flash">快速</button>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button type="submit" class="primary-action">
+                <span class="spark" aria-hidden="true"></span>
+                生成三行诗
+              </button>
+              <button type="button" id="randomize" class="icon-action" aria-label="重新生成">
+                ↻
+              </button>
+            </div>
+          </form>
+        </aside>
+
+        <section class="preview-stage" aria-label="杯身预览">
+          <div class="ambient ambient-left"></div>
+          <div class="ambient ambient-right"></div>
+
+          <div class="cup-scene">
+            <div class="steam steam-one"></div>
+            <div class="steam steam-two"></div>
+            <div class="steam steam-three"></div>
+            <div class="cup-lid"></div>
+            <div class="cup">
+              <div class="cup-shadow"></div>
+              <div id="labelPreview" class="cup-label">
+                <div class="label-head">
+                  <div class="label-mark">天使学堂</div>
+                </div>
+                <div id="poemLines" class="poem-lines" aria-live="polite"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <aside class="output-panel">
+          <div class="panel-section">
+            <span class="section-title">打印预览</span>
+            <div id="printCard" class="print-card">
+              <div class="print-head">
+                <div class="print-brand">天使学堂</div>
+              </div>
+              <div id="printLines" class="print-lines"></div>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <span class="section-title">标签纸</span>
+            <div class="swatch-grid" role="group" aria-label="标签纸样式">
+              <button type="button" class="swatch" data-theme="warm" aria-label="奶白标签">
+                <span class="swatch-color warm"></span>
+                奶白
+              </button>
+              <button type="button" class="swatch" data-theme="kraft" aria-label="牛皮纸标签">
+                <span class="swatch-color kraft"></span>
+                牛皮
+              </button>
+              <button type="button" class="swatch is-active" data-theme="ink" aria-label="黑白标签">
+                <span class="swatch-color ink"></span>
+                黑白
+              </button>
+            </div>
+          </div>
+
+          <div class="panel-section">
+            <span class="section-title">生成记录</span>
+            <div class="history-actions" aria-label="历史签选择操作">
+              <button type="button" id="selectAllHistory">全选</button>
+              <button type="button" id="clearHistorySelection">全不选</button>
+              <span id="selectedHistoryCount">已选 0 张</span>
+            </div>
+            <div id="historyList" class="history-list" aria-label="三行诗生成记录"></div>
+          </div>
+
+          <div class="panel-section">
+            <span class="section-title">操作</span>
+            <div class="utility-actions">
+              <button type="button" id="copyText">复制诗句</button>
+              <button type="button" id="exportImage">导出图片</button>
+              <button type="button" id="exportSelected">导出选中</button>
+              <button type="button" id="clearHistory">清空记录</button>
+              <button type="button" id="printLabel">打印标签</button>
+            </div>
+            <p id="statusMessage" class="status-message" role="status"></p>
+          </div>
+        </aside>
+      </section>
+    </main>
+
+    <script>
+      window.COFFEE_POET_API_ENDPOINT = location.protocol.startsWith("http") ? "/api/poem" : "";
+    </script>
+    <script src="./script.js"></script>
+  </body>
+</html>

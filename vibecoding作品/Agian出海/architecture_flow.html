@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vibe Coding · 品牌出海全栈重构架构与链路</title>
+<style>
+:root {
+  --bg: #FAF8F5;
+  --surface: #ffffff;
+  --border: rgba(22, 20, 15, 0.08);
+  --border-subtle: rgba(22, 20, 15, 0.05);
+  --ink: #16140f;
+  --ink-soft: #4a453e;
+  --ink-muted: #78736a;
+  --accent: #c2482a;
+  --accent-green: #2aa876;
+  --accent-blue: #2563eb;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  user-select: none; 
+}
+body {
+  font-family: "Century Gothic", "CenturyGothic", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--ink);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 顶部 Mac 极简工具条 */
+.nav-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mac-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.mac-red { background: #e07a67; }
+.mac-yellow { background: #e6c05b; }
+.mac-green { background: #71b092; }
+
+.segmented {
+  display: inline-flex;
+  align-items: center;
+  background: #f2eee7;
+  padding: 2.5px;
+  border-radius: 100px;
+  border: 1px solid rgba(22, 20, 15, 0.06);
+}
+.tab-btn {
+  padding: 3px 12px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all .2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+}
+.tab-btn.is-active {
+  color: var(--ink);
+  font-weight: 700;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.tab-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-green);
+}
+
+/* 主内容滚动区域 (工程路线图风格) */
+.stage-scroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* 视图 1：工程技术路线图 (Technical Roadmap) */
+.pipeline-view {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.stage-node {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  transition: border-color .2s ease;
+}
+.stage-node:hover {
+  border-color: rgba(22, 20, 15, 0.18);
+}
+
+.node-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.node-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.node-num {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  color: var(--accent);
+  font-family: 'Century Gothic', monospace;
+}
+.node-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.node-tag {
+  font-size: 10.5px;
+  color: var(--ink-muted);
+  font-weight: 600;
+  font-family: 'Century Gothic', sans-serif;
+}
+
+.node-body {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.node-row {
+  display: grid;
+  grid-template-columns: 58px 1fr;
+  gap: 8px;
+  align-items: baseline;
+}
+.row-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--ink-muted);
+}
+.row-text {
+  font-size: 13.5px;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+
+/* 路线连接箭头 */
+.node-connector {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--ink-muted);
+  font-size: 11px;
+  font-weight: 600;
+  margin: -4px 0;
+  opacity: 0.6;
+}
+
+/* 视图 2：架构升级对比表 */
+.compare-view {
+  display: none;
+  flex-direction: column;
+}
+.compare-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+}
+.compare-head {
+  padding: 12px 16px;
+  background: #faf8f5;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.compare-table th, .compare-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-subtle);
+  text-align: left;
+  line-height: 1.5;
+}
+.compare-table th {
+  background: #ffffff;
+  color: var(--ink-muted);
+  font-weight: 700;
+  font-size: 11.5px;
+  border-bottom: 1px solid var(--border);
+}
+.compare-table tr:last-child td {
+  border-bottom: none;
+}
+.col-dim { color: var(--ink-muted); width: 22%; font-weight: 700; font-size: 12px; }
+.col-old { color: var(--ink-soft); width: 39%; font-size: 13px; }
+.col-new { color: var(--ink); width: 39%; font-weight: 700; font-size: 13px; }
+</style>
+</head>
+<body>
+
+  <!-- 顶部 Mac 极简工具栏 -->
+  <div class="nav-bar">
+    <div class="nav-left">
+      <span class="mac-dot mac-red"></span>
+      <span class="mac-dot mac-yellow"></span>
+      <span class="mac-dot mac-green"></span>
+    </div>
+    
+    <div class="segmented">
+      <button class="tab-btn is-active" id="tab-pipeline" onclick="switchTab('pipeline')" type="button">
+        <span class="tab-dot"></span>
+        <span>敏捷全栈链路</span>
+      </button>
+      <button class="tab-btn" id="tab-compare" onclick="switchTab('compare')" type="button">
+        <span>架构升维对比</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 主滚动区域 -->
+  <div class="stage-scroll">
+    
+    <!-- 视图 1：敏捷全栈重构路线图 -->
+    <div class="pipeline-view" id="view-pipeline">
+      
+      <!-- 节点 01 -->
+      <div class="stage-node">
+        <div class="node-head">
+          <div class="node-title-group">
+            <span class="node-num">01</span>
+            <span class="node-name">多模态语料逆向与解构</span>
+          </div>
+          <span class="node-tag">LLM Vision · OCR</span>
+        </div>
+        <div class="node-body">
+          <div class="node-row">
+            <span class="row-label">输入源</span>
+            <span class="row-text">WordPress 原站数据 + 散点物料 (PDF / 摄影原片 / 规格参数)</span>
+          </div>
+          <div class="node-row">
+            <span class="row-label">解构输出</span>
+            <span class="row-text">梳理出咖啡渣再生、植物精油、礼盒套装与环保包装四大核心板块</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-connector">
+        <span>↓</span>
+        <span>信息架构解耦与重组</span>
+      </div>
+
+      <!-- 节点 02 -->
+      <div class="stage-node">
+        <div class="node-head">
+          <div class="node-title-group">
+            <span class="node-num">02</span>
+            <span class="node-name">国际化信息架构 (IA) 塑形</span>
+          </div>
+          <span class="node-tag">Claude 3.5 · IA Design</span>
+        </div>
+        <div class="node-body">
+          <div class="node-row">
+            <span class="row-label">叙事弧线</span>
+            <span class="row-text">画报主视觉 ➔ 咖啡渣再生 ➔ 植物精油 ➔ 礼盒套装 ➔ 环保海藻包装</span>
+          </div>
+          <div class="node-row">
+            <span class="row-label">美学规范</span>
+            <span class="row-text">参考北欧极简杂志排版风格，统一 Century Gothic 视觉字系</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-connector">
+        <span>↓</span>
+        <span>Vibe Coding 组件工程化</span>
+      </div>
+
+      <!-- 节点 03 -->
+      <div class="stage-node">
+        <div class="node-head">
+          <div class="node-title-group">
+            <span class="node-num">03</span>
+            <span class="node-name">Vibe Coding 敏捷交互开发</span>
+          </div>
+          <span class="node-tag">React 18 · Vite · Cursor</span>
+        </div>
+        <div class="node-body">
+          <div class="node-row">
+            <span class="row-label">技术矩阵</span>
+            <span class="row-text">React 18 + Vite + Tailwind CSS + Framer Motion 动态微交互</span>
+          </div>
+          <div class="node-row">
+            <span class="row-label">核心交付</span>
+            <span class="row-text">分类快速筛选、香调金字塔弹窗、环保包装图鉴与全端自适应响应</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="node-connector">
+        <span>↓</span>
+        <span>静态编译与边缘分发</span>
+      </div>
+
+      <!-- 节点 04 -->
+      <div class="stage-node">
+        <div class="node-head">
+          <div class="node-title-group">
+            <span class="node-num">04</span>
+            <span class="node-name">静态编译与生产级零运维部署</span>
+          </div>
+          <span class="node-tag">Vite SSG · Edge CDN</span>
+        </div>
+        <div class="node-body">
+          <div class="node-row">
+            <span class="row-label">性能指标</span>
+            <span class="row-text">静态 SSG 零数据库依赖，高压缩轻量资产，全球边缘网络 60 FPS 秒开</span>
+          </div>
+          <div class="node-row">
+            <span class="row-label">业务达成</span>
+            <span class="row-text">仅用数天时间高效交付一套有质感、可深度体验的品牌出海交互官网</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 视图 2：架构升级对比表 -->
+    <div class="compare-view" id="view-compare">
+      <div class="compare-card">
+        <div class="compare-head">
+          <span>国内原版 (WordPress) VS 出海重构版 (Vibe Coding)</span>
+        </div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th class="col-dim">核心维度</th>
+              <th class="col-old">国内原版 (WordPress)</th>
+              <th class="col-new">出海重构版 (Vibe Coding)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="col-dim">系统架构</td>
+              <td class="col-old">单体 PHP / 臃肿插件</td>
+              <td class="col-new">React 18 + Vite 极简组件化</td>
+            </tr>
+            <tr>
+              <td class="col-dim">视觉美学</td>
+              <td class="col-old">本土基础图文电商罗列</td>
+              <td class="col-new">丹麦 FRAMA 极简画报美学</td>
+            </tr>
+            <tr>
+              <td class="col-dim">用户交互</td>
+              <td class="col-old">静态商品详情与淘宝外链</td>
+              <td class="col-new">情绪香调通感选择器 / 沉浸动效</td>
+            </tr>
+            <tr>
+              <td class="col-dim">加载性能</td>
+              <td class="col-old">依赖多 / 加载慢 / 需服务器维护</td>
+              <td class="col-new">静态 SSG / 全球 CDN / 60 FPS</td>
+            </tr>
+            <tr>
+              <td class="col-dim">开发效能</td>
+              <td class="col-old">传统全流程耗时数周</td>
+              <td class="col-new">Prompt 架构驱动，数日敏捷交付</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function switchTab(tab) {
+      const viewPipeline = document.getElementById('view-pipeline');
+      const viewCompare = document.getElementById('view-compare');
+      const tabPipeline = document.getElementById('tab-pipeline');
+      const tabCompare = document.getElementById('tab-compare');
+
+      if (tab === 'pipeline') {
+        viewPipeline.style.display = 'flex';
+        viewCompare.style.display = 'none';
+        tabPipeline.classList.add('is-active');
+        tabCompare.classList.remove('is-active');
+      } else {
+        viewPipeline.style.display = 'none';
+        viewCompare.style.display = 'flex';
+        tabCompare.classList.add('is-active');
+        tabPipeline.classList.remove('is-active');
+      }
+    }
+  </script>
+</body>
+</html>

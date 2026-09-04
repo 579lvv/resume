@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEO 自动化工作流 · 搭建逻辑与数据闭环</title>
+<style>
+:root {
+  --bg: #FAF8F5;
+  --surface: #ffffff;
+  --border: rgba(22, 20, 15, 0.08);
+  --ink: #16140f;
+  --ink-secondary: #52525b;
+  --ink-muted: #847f74;
+  --accent: #c2482a;
+  --accent-green: #2aa876;
+  --accent-blue: #2563eb;
+}
+
+* { 
+  box-sizing: border-box; 
+  margin: 0; 
+  padding: 0; 
+  user-select: none; 
+}
+body {
+  font-family: "Century Gothic", "CenturyGothic", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--ink);
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* 顶部 Mac 工具条与分段控制器 */
+.geo-navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 14px;
+  background: #ffffff;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.geo-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.mac-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.mac-red { background: #e07a67; }
+.mac-yellow { background: #e6c05b; }
+.mac-green { background: #71b092; }
+.geo-url {
+  font-size: 11px;
+  color: var(--ink-muted);
+  margin-left: 6px;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+.geo-segmented {
+  display: inline-flex;
+  align-items: center;
+  background: #f2eee7;
+  padding: 2.5px;
+  border-radius: 100px;
+  border: 1px solid rgba(22, 20, 15, 0.06);
+}
+.geo-tab-btn {
+  padding: 3px 10px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  border-radius: 100px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all .2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: inherit;
+}
+.geo-tab-btn.is-active {
+  color: var(--ink);
+  font-weight: 700;
+  background: #ffffff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+}
+.geo-tab-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent-green);
+}
+
+/* 主展示视口 */
+.geo-viewport {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+}
+
+/* ================= 视图 1：搭建逻辑与数据流 ================= */
+.geo-arch-view {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 18px 14px 18px;
+  background: var(--bg);
+}
+
+.geo-step-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+.geo-step-pill {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  background: rgba(194, 72, 42, 0.09);
+  padding: 2.5px 10px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.geo-live-pulse {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: pulseDot 1.2s infinite ease-in-out;
+}
+@keyframes pulseDot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.7); } }
+
+/* 4 阶段流程网格 */
+.geo-flow-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+  flex: 1;
+  margin-bottom: 8px;
+}
+
+.geo-node-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 11px 13px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  transition: all .3s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+.geo-node-card.is-active-step {
+  border-color: rgba(194, 72, 42, 0.45);
+  box-shadow: 0 4px 14px rgba(194, 72, 42, 0.09);
+  transform: translateY(-1.5px);
+}
+
+.geo-node-head {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.geo-node-id {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  letter-spacing: 0.04em;
+}
+
+.geo-node-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-bottom: 4px;
+  min-height: 18px;
+  display: flex;
+  align-items: center;
+}
+.geo-node-desc {
+  font-size: 11.5px;
+  color: #4a453e;
+  line-height: 1.55;
+  min-height: 38px;
+  display: flex;
+  align-items: flex-start;
+  text-align: justify;
+}
+
+.geo-node-pill-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: auto;
+  padding-top: 6px;
+}
+.geo-mini-pill {
+  font-size: 10.5px;
+  background: #f7f5f0;
+  border: 1px solid rgba(22,20,15,0.06);
+  padding: 2.5px 7px;
+  border-radius: 4px;
+  color: var(--ink-secondary);
+}
+
+/* 底部状态流向条 */
+.geo-bottom-pipeline {
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+}
+.geo-pipe-flow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink-secondary);
+}
+.geo-pipe-arrow {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* ================= 视图 2：客户诊断月报样例 ================= */
+.geo-report-view {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 16px 18px;
+  background: #ffffff;
+}
+
+.report-header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.report-title {
+  font-size: 13.5px;
+  font-weight: 800;
+  color: var(--ink);
+}
+.report-sub {
+  font-size: 9px;
+  color: var(--ink-muted);
+  margin-top: 2px;
+}
+.report-badge {
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--accent-green);
+  background: rgba(42, 168, 118, 0.1);
+  padding: 2px 7px;
+  border-radius: 100px;
+}
+
+.report-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin: 10px 0;
+}
+.report-kpi-card {
+  background: #faf8f5;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.report-kpi-label {
+  font-size: 9px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+.report-kpi-val {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--ink);
+  margin-top: 2px;
+}
+.report-kpi-val span {
+  font-size: 9px;
+  color: var(--accent-green);
+  font-weight: 700;
+}
+
+.report-platforms {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+.report-platforms-title {
+  font-size: 9.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  display: flex;
+  justify-content: space-between;
+}
+.plat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+.plat-bar-bg {
+  flex: 1;
+  height: 4px;
+  background: #eee;
+  border-radius: 2px;
+  margin: 0 8px;
+  overflow: hidden;
+}
+.plat-bar-fill {
+  height: 100%;
+  background: var(--ink);
+  border-radius: 2px;
+}
+
+.report-footer-advice {
+  background: rgba(194, 72, 42, 0.05);
+  border: 1px dashed rgba(194, 72, 42, 0.25);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 9px;
+  color: #635f56;
+  line-height: 1.4;
+}
+
+@media (max-width: 420px) {
+  .geo-arch-view { padding: 10px 12px 8px; }
+  .geo-flow-grid { gap: 6px; }
+  .geo-node-card { padding: 8px 10px; }
+  .geo-node-title { font-size: 11px; margin-bottom: 2px; }
+  .geo-node-desc { font-size: 8.5px; line-height: 1.35; }
+  .geo-mini-pill { font-size: 8px; padding: 1px 4px; }
+  .geo-bottom-pipeline { padding: 5px 8px; font-size: 8.5px; }
+  .geo-pipe-flow { gap: 4px; }
+  .report-title { font-size: 12px; }
+  .report-kpi-val { font-size: 14px; }
+}
+
+</style>
+</head>
+<body>
+
+  <!-- 顶部 Mac 风格地址栏与视图切换 -->
+  <div class="geo-navbar">
+    <div class="geo-nav-left">
+      <span class="mac-dot mac-red"></span>
+      <span class="mac-dot mac-yellow"></span>
+      <span class="mac-dot mac-green"></span>
+      
+    </div>
+    <div class="geo-segmented">
+      <button class="geo-tab-btn is-active" id="tab-arch" onclick="switchGeoMode('arch')">
+        <span class="geo-tab-dot"></span>
+        搭建逻辑与数据流
+      </button>
+      <button class="geo-tab-btn" id="tab-report" onclick="switchGeoMode('report')">
+        📄 客户月度报告
+      </button>
+    </div>
+  </div>
+
+  <div class="geo-viewport">
+    <!-- 视图 1：搭建逻辑与数据流全景架构 -->
+    <div class="geo-arch-view" id="view-arch">
+      <div class="geo-step-header">
+        <div class="geo-step-pill" id="geoStepText">
+          <span class="geo-live-pulse"></span>
+          <span>Step 1: 录入客户核心话题词与基础信息</span>
+        </div>
+      </div>
+
+      <div class="geo-flow-grid">
+        <!-- Node 01 -->
+        <div class="geo-node-card is-active-step" id="node-0">
+          <div class="geo-node-head">
+            <span class="geo-node-id">01 / INPUT</span>
+          </div>
+          <div class="geo-node-title">录入客户信息</div>
+          <div class="geo-node-desc">录入客户核心话题词、产品定位与高意向转化词根。</div>
+          <div class="geo-node-pill-box">
+            <span class="geo-mini-pill">客户核心词库</span>
+            <span class="geo-mini-pill">品牌元数据</span>
+          </div>
+        </div>
+
+        <!-- Node 02 -->
+        <div class="geo-node-card" id="node-1">
+          <div class="geo-node-head">
+            <span class="geo-node-id">02 / EXPAND</span>
+          </div>
+          <div class="geo-node-title">生成场景问题</div>
+          <div class="geo-node-desc">基于意图矩阵，自动扩充生成 20+ 个核心场景问答。</div>
+          <div class="geo-node-pill-box">
+            <span class="geo-mini-pill">Prompt 架构</span>
+            <span class="geo-mini-pill">场景意图矩阵</span>
+          </div>
+        </div>
+
+        <!-- Node 03 -->
+        <div class="geo-node-card" id="node-2">
+          <div class="geo-node-head">
+            <span class="geo-node-id">03 / SOP</span>
+          </div>
+          <div class="geo-node-title">AI内容创作</div>
+          <div class="geo-node-desc">依据主流 AI 引用逻辑，批量生成结构化高权威科普内容。</div>
+          <div class="geo-node-pill-box">
+            <span class="geo-mini-pill">批量内容 SOP</span>
+            <span class="geo-mini-pill">AI 引用适配</span>
+          </div>
+        </div>
+
+        <!-- Node 04 -->
+        <div class="geo-node-card" id="node-3">
+          <div class="geo-node-head">
+            <span class="geo-node-id">04 / REPORT</span>
+          </div>
+          <div class="geo-node-title">数据监测与智能月报</div>
+          <div class="geo-node-desc">定期回传 6 大平台可见度评分，系统自动输出客户诊断报告。</div>
+          <div class="geo-node-pill-box">
+            <span class="geo-mini-pill">数据闭环回传</span>
+            <span class="geo-mini-pill">自动出周/月报</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="geo-bottom-pipeline" style="justify-content:center;">
+        <div class="geo-pipe-flow">
+          <span>录入信息</span> <span class="geo-pipe-arrow">➔</span>
+          <span>生成问题</span> <span class="geo-pipe-arrow">➔</span>
+          <span>AI创作</span> <span class="geo-pipe-arrow">➔</span>
+          <span>监测回传</span> <span class="geo-pipe-arrow">➔</span>
+          <span>自动出报</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 视图 2：客户诊断月报样例 -->
+    <div class="geo-report-view" id="view-report">
+      <div class="report-header">
+        <div>
+          <div class="report-title">GEO 品牌搜索可见度月度诊断报告</div>
+          <div class="report-sub">客户：某消费健康品牌 · 周期：2026.04 月度复盘</div>
+        </div>
+        <span class="report-badge">✓ 自动化输出就绪</span>
+      </div>
+
+      <div class="report-kpi-grid">
+        <div class="report-kpi-card">
+          <div class="report-kpi-label">GEO 可见度评分</div>
+          <div class="report-kpi-val">94.2% <span>↑ 18.4%</span></div>
+        </div>
+        <div class="report-kpi-card">
+          <div class="report-kpi-label">首屏推荐占有率</div>
+          <div class="report-kpi-val">82.6% <span>超同业平均</span></div>
+        </div>
+        <div class="report-kpi-card">
+          <div class="report-kpi-label">覆盖核心词库</div>
+          <div class="report-kpi-val">128 <span>Keywords</span></div>
+        </div>
+      </div>
+
+      <div class="report-platforms">
+        <div class="report-platforms-title">
+          <span>主流 AI 平台引用渗透率</span>
+          <span style="color:var(--ink-muted); font-size:8.5px;">6 大引擎全网监测</span>
+        </div>
+        <div class="plat-row">
+          <span style="width:65px;">ChatGPT</span>
+          <div class="plat-bar-bg"><div class="plat-bar-fill" style="width:96%;"></div></div>
+          <span style="width:30px; text-align:right; font-weight:700;">96%</span>
+        </div>
+        <div class="plat-row">
+          <span style="width:65px;">Perplexity</span>
+          <div class="plat-bar-bg"><div class="plat-bar-fill" style="width:94%;"></div></div>
+          <span style="width:30px; text-align:right; font-weight:700;">94%</span>
+        </div>
+        <div class="plat-row">
+          <span style="width:65px;">Claude</span>
+          <div class="plat-bar-bg"><div class="plat-bar-fill" style="width:91%;"></div></div>
+          <span style="width:30px; text-align:right; font-weight:700;">91%</span>
+        </div>
+        <div class="plat-row">
+          <span style="width:65px;">Kimi / 豆包</span>
+          <div class="plat-bar-bg"><div class="plat-bar-fill" style="width:95%;"></div></div>
+          <span style="width:30px; text-align:right; font-weight:700;">95%</span>
+        </div>
+      </div>
+
+      <div class="report-footer-advice">
+        <strong>💡 下一步优化策略：</strong> 本月已在高频问答建立权威引用；次月将扩展 35 个长尾细分场景，进一步强化首屏推荐权重。
+      </div>
+    </div>
+  </div>
+
+<script>
+let currentMode = 'arch';
+let currentStep = 0;
+let stepTimer = null;
+
+const stepTexts = [
+  "Step 1: 录入客户核心话题词与基础信息",
+  "Step 2: 自动生成核心话题对应的20个场景问题",
+  "Step 3: 批量进行 GEO 高权威 AI 内容创作",
+  "Step 4: 数据监测回传 ➔ 自动输出客户周/月度报告"
+];
+
+function switchGeoMode(mode) {
+  currentMode = mode;
+  const tabArch = document.getElementById('tab-arch');
+  const tabReport = document.getElementById('tab-report');
+  const viewArch = document.getElementById('view-arch');
+  const viewReport = document.getElementById('view-report');
+  
+  if (mode === 'arch') {
+    tabArch.className = 'geo-tab-btn is-active';
+    tabReport.className = 'geo-tab-btn';
+    viewArch.style.display = 'flex';
+    viewReport.style.display = 'none';
+    
+  } else {
+    tabArch.className = 'geo-tab-btn';
+    tabReport.className = 'geo-tab-btn is-active';
+    viewArch.style.display = 'none';
+    viewReport.style.display = 'flex';
+    
+  }
+}
+
+function runStepLoop() {
+  if (currentMode !== 'arch') {
+    stepTimer = setTimeout(runStepLoop, 2000);
+    return;
+  }
+
+  const stepPill = document.getElementById('geoStepText');
+  stepPill.innerHTML = `<span class="geo-live-pulse"></span><span>${stepTexts[currentStep]}</span>`;
+
+  for (let i = 0; i < 4; i++) {
+    const node = document.getElementById(`node-${i}`);
+    if (node) {
+      if (i === currentStep) node.classList.add('is-active-step');
+      else node.classList.remove('is-active-step');
+    }
+  }
+
+  currentStep = (currentStep + 1) % 4;
+  stepTimer = setTimeout(runStepLoop, 2800);
+}
+
+runStepLoop();
+</script>
+</body>
+</html>

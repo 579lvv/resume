@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>天使学堂 · 三行诗生成演示</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; user-select: none; }
+body {
+  font-family: "Century Gothic", "CenturyGothic", "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #FAF8F5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.poet-demo-stage {
+  width: 100%;
+  height: 100%;
+  background: #FAF8F5;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  padding: 24px 20px 18px 20px;
+  gap: 16px;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Left Panel: Mini Control Studio */
+.poet-left-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(22, 20, 15, 0.08);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+.poet-mini-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.poet-mini-kicker {
+  font-size: 9px;
+  font-weight: 700;
+  color: #9c6c44;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.poet-mini-title {
+  font-size: 14.5px;
+  font-weight: 800;
+  color: #1c1815;
+}
+
+.poet-input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.poet-input-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  color: #666;
+  display: flex;
+  justify-content: space-between;
+}
+.poet-input-box {
+  background: #ffffff;
+  border: 1px solid #e5e0d8;
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 12px;
+  color: #1c1815;
+  display: flex;
+  align-items: center;
+  min-height: 32px;
+}
+.poet-cursor {
+  display: inline-block;
+  width: 1.5px;
+  height: 14px;
+  background: #c2482a;
+  margin-left: 2px;
+  animation: blink 0.8s infinite;
+}
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+.poet-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.poet-chip {
+  font-size: 10px;
+  padding: 4px 9px;
+  border-radius: 6px;
+  border: 1px solid #e5e0d8;
+  background: #ffffff;
+  color: #555;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+.poet-chip:hover {
+  border-color: #1c1815;
+}
+.poet-chip.is-active {
+  background: #1c1815;
+  color: #ffffff;
+  border-color: #1c1815;
+}
+
+.poet-action-btn {
+  background: linear-gradient(135deg, #1c1815, #3a322b);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-size: 11.5px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all .2s ease;
+  margin-top: 2px;
+}
+.poet-action-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.16);
+}
+.poet-action-btn.is-pulsing {
+  transform: scale(0.96);
+  box-shadow: 0 0 0 4px rgba(194, 72, 42, 0.4);
+}
+
+/* Right Panel: Simulated Cup & Label */
+.poet-right-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  height: 100%;
+}
+
+.poet-cup-stage {
+  position: relative;
+  width: 180px;
+  height: 275px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Steam Animation */
+.poet-steam-wrap {
+  position: absolute;
+  top: -22px;
+  display: flex;
+  gap: 14px;
+  z-index: 1;
+}
+.poet-steam {
+  width: 7px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(to top, rgba(194, 72, 42, 0.3), transparent);
+  filter: blur(2.5px);
+  animation: steamFloat 2.8s infinite ease-in-out;
+}
+.poet-steam:nth-child(2) { animation-delay: 0.9s; height: 38px; }
+.poet-steam:nth-child(3) { animation-delay: 1.8s; height: 26px; }
+
+@keyframes steamFloat {
+  0% { transform: translateY(12px) scaleX(0.8); opacity: 0; }
+  50% { opacity: 0.85; }
+  100% { transform: translateY(-28px) scaleX(1.5); opacity: 0; }
+}
+
+.poet-cup-lid {
+  width: 148px;
+  height: 22px;
+  background: #fcfbf9;
+  border-radius: 9px 9px 4px 4px;
+  border: 1px solid rgba(0,0,0,0.12);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  z-index: 2;
+}
+
+.poet-cup-body {
+  width: 138px;
+  height: 215px;
+  background: linear-gradient(180deg, #d8bfab 0%, #b89777 100%);
+  clip-path: polygon(4% 0%, 96% 0%, 82% 100%, 18% 100%);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset -8px 0 16px rgba(0,0,0,0.18), 0 18px 32px rgba(0,0,0,0.14);
+  margin-top: -2px;
+}
+
+.poet-cup-label {
+  width: 108px;
+  min-height: 126px;
+  background: #FAF8F5;
+  /* 优雅梯形杯贴剪裁：上宽下窄，顺应杯身轮廓斜率 */
+  clip-path: polygon(3.5% 0%, 96.5% 0%, 88.5% 100%, 11.5% 100%);
+  border-radius: 6px;
+  padding: 13px 10px 9px;
+  filter: drop-shadow(0 5px 14px rgba(0,0,0,0.18));
+  border: 1px solid rgba(0,0,0,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: opacity .3s ease;
+}
+
+.poet-label-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 6.5px;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: #1c1815;
+  font-weight: 600;
+  font-family: "Songti SC", "SimSun", "Noto Serif CJK SC", "STSong", serif;
+  min-height: 64px;
+  justify-content: center;
+  transition: all .25s ease;
+}
+
+.highlight {
+  display: inline-block;
+  padding: 0 2px;
+  margin: 0 0.5px;
+  border-radius: 3px;
+  background: rgba(180, 100, 77, 0.16);
+  color: #843d2d;
+  font-weight: 700;
+  border-bottom: 1.5px solid rgba(132, 61, 45, 0.4);
+}
+
+.poet-label-footer {
+  font-size: 8px;
+  color: #999;
+  border-top: 1px dashed rgba(0,0,0,0.12);
+  padding-top: 4px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Step Bar */
+.poet-step-bar {
+  position: absolute;
+  top: 9px;
+  left: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #c2482a;
+  background: rgba(194, 72, 42, 0.09);
+  padding: 2.5px 10px;
+  border-radius: 100px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.poet-live-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #c2482a;
+  animation: livePill 1.2s infinite ease-in-out;
+}
+@keyframes livePill { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(0.7); } }
+
+@media (max-width: 420px) {
+  .poet-demo-stage {
+    padding: 12px 10px;
+    gap: 8px;
+  }
+  .poet-left-panel {
+    padding: 10px;
+    gap: 7px;
+  }
+  .poet-mini-title {
+    font-size: 12.5px;
+  }
+  .poet-mood-chip {
+    font-size: 8.5px;
+    padding: 2.5px 6px;
+  }
+  .btn-poet-generate {
+    padding: 6px 10px;
+    font-size: 10px;
+  }
+  .cup-real-container {
+    transform: scale(0.9);
+  }
+}
+
+</style>
+</head>
+<body>
+<div class="poet-demo-stage">
+  <div class="poet-step-bar" id="stepBar">
+    <span class="poet-live-dot"></span>
+    <span id="stepText">Step 1: 输入昵称「小雨」与心情</span>
+  </div>
+
+  <div class="poet-left-panel">
+    <div class="poet-mini-head">
+      <span class="poet-mini-kicker">ANGEL SCHOOL · COFFEE POET</span>
+      <h5 class="poet-mini-title">天使学堂 · 三行诗生成</h5>
+    </div>
+
+    <div class="poet-input-group">
+      <span class="poet-input-label">昵称 / Nickname</span>
+      <div class="poet-input-box" id="nameBox"><span id="nameText">小雨</span><span class="poet-cursor"></span></div>
+    </div>
+
+    <div class="poet-input-group">
+      <span class="poet-input-label">今日心情 / Mood</span>
+      <div class="poet-chips">
+        <span class="poet-chip is-active" id="chip-0" onclick="selectManualMood(0)">☕ 疲惫</span>
+        <span class="poet-chip" id="chip-1" onclick="selectManualMood(1)">🌿 平静</span>
+        <span class="poet-chip" id="chip-2" onclick="selectManualMood(2)">✨ 开心</span>
+        <span class="poet-chip" id="chip-3" onclick="selectManualMood(3)">☀️ 慢热</span>
+      </div>
+    </div>
+
+    <button type="button" class="poet-action-btn" id="generateBtn" onclick="triggerManualGenerate()">
+      <span>✨ 生成专属三行诗</span>
+    </button>
+  </div>
+
+  <div class="poet-right-panel">
+    <div class="poet-cup-stage">
+      <div class="poet-steam-wrap">
+        <div class="poet-steam"></div>
+        <div class="poet-steam"></div>
+        <div class="poet-steam"></div>
+      </div>
+      <div class="poet-cup-lid"></div>
+      <div class="poet-cup-body">
+        <div class="poet-cup-label">
+          <div class="poet-label-lines" id="poemBox">
+            <div>先把肩放<strong class="highlight">小</strong>些</div>
+            <div>微<strong class="highlight">雨</strong>停在杯口</div>
+            <div>这一刻够安静</div>
+          </div>
+          <div class="poet-label-footer">
+            <span>2026.01</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const poemsData = [
+  { name: "小雨", mood: "疲惫", style: "治愈诗", lines: ["先把肩放<strong class=\"highlight\">小</strong>些", "微<strong class=\"highlight\">雨</strong>停在杯口", "这一刻够安静"] },
+  { name: "阿泽", mood: "平静", style: "现代诗", lines: ["杯沿留着<strong class=\"highlight\">阿</strong>声", "润<strong class=\"highlight\">泽</strong>绕过指尖", "心慢慢坐稳"] },
+  { name: "林林", mood: "开心", style: "俏皮诗", lines: ["咖啡冒个<strong class=\"highlight\">林</strong>泡", "烦恼先坐旁边", "双<strong class=\"highlight\">林</strong>甜香已到"] },
+  { name: "晴晴", mood: "慢热", style: "古风诗", lines: ["半窗微雨初<strong class=\"highlight\">晴</strong>", "杯中<strong class=\"highlight\">晴</strong>意初温", "清欢不必多言"] }
+];
+
+let currentIndex = 0;
+let timer = null;
+
+// 只更新左侧输入框和选中的心情芯片（不改变右侧杯身诗句）
+function updateLeftInputs(data) {
+  const nameText = document.getElementById('nameText');
+  nameText.textContent = data.name;
+  for(let i=0; i<4; i++) {
+    const chip = document.getElementById(`chip-${i}`);
+    if(chip) {
+      if(i === currentIndex) chip.classList.add('is-active');
+      else chip.classList.remove('is-active');
+    }
+  }
+}
+
+// 触发右侧杯身渲染新诗句（仅在点击按钮之后调用）
+function renderCupPoem(data) {
+  const poemBox = document.getElementById('poemBox');
+
+  poemBox.style.opacity = '0';
+  setTimeout(() => {
+    poemBox.innerHTML = `<div>${data.lines[0]}</div><div>${data.lines[1]}</div><div>${data.lines[2]}</div>`;
+    poemBox.style.opacity = '1';
+  }, 220);
+}
+
+function runAutoStep() {
+  const data = poemsData[currentIndex];
+  const stepText = document.getElementById('stepText');
+  const generateBtn = document.getElementById('generateBtn');
+
+  // Step 1: 仅输入昵称与选择心情，右侧杯身保持不变
+  stepText.textContent = `Step 1: 输入昵称「${data.name}」与今日心情「${data.mood}」`;
+  updateLeftInputs(data);
+
+  // Step 2: 点击「生成专属三行诗」
+  timer = setTimeout(() => {
+    stepText.textContent = `Step 2: 点击生成 · 大模型即时解构意境`;
+    generateBtn.classList.add('is-pulsing');
+    setTimeout(() => generateBtn.classList.remove('is-pulsing'), 350);
+
+    // Step 3: 点击后右侧杯身才实时渲染出新的诗句！
+    timer = setTimeout(() => {
+      stepText.textContent = `Step 3: 杯贴实时渲染 · 昵称高亮嵌入诗行`;
+      renderCupPoem(data);
+
+      // 停留展示 3.8 秒，随后进入下一组演示
+      timer = setTimeout(() => {
+        currentIndex = (currentIndex + 1) % poemsData.length;
+        runAutoStep();
+      }, 3800);
+    }, 450);
+  }, 1800);
+}
+
+function selectManualMood(idx) {
+  clearTimeout(timer);
+  currentIndex = idx;
+  const data = poemsData[idx];
+  const stepText = document.getElementById('stepText');
+  stepText.textContent = `Step 1: 已选择「${data.name}」·「${data.mood}」，请点击生成`;
+  updateLeftInputs(data);
+}
+
+function triggerManualGenerate() {
+  clearTimeout(timer);
+  const data = poemsData[currentIndex];
+  const stepText = document.getElementById('stepText');
+  const generateBtn = document.getElementById('generateBtn');
+  
+  stepText.textContent = `Step 2: 正在生成中...`;
+  generateBtn.classList.add('is-pulsing');
+  setTimeout(() => generateBtn.classList.remove('is-pulsing'), 300);
+
+  setTimeout(() => {
+    stepText.textContent = `Step 3: 杯身实时渲染 · 生成完毕`;
+    renderCupPoem(data);
+    timer = setTimeout(() => {
+      currentIndex = (currentIndex + 1) % poemsData.length;
+      runAutoStep();
+    }, 4500);
+  }, 400);
+}
+
+// 初始渲染第一首诗，随后开始按逻辑步骤执行动效
+renderCupPoem(poemsData[0]);
+runAutoStep();
+</script>
+</body>
+</html>
