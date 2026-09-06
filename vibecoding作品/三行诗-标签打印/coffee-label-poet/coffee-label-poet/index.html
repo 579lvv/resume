@@ -9,20 +9,6 @@
   </head>
   <body>
     <main class="app-shell">
-      <section id="accessGate" class="access-gate" aria-label="访问验证">
-        <form id="accessForm" class="access-box">
-          <span class="kicker">PRIVATE PREVIEW</span>
-          <h2>输入访问码</h2>
-          <p>这是内部测试版本。请输入访问码后继续使用。</p>
-          <label class="field">
-            <span>访问码</span>
-            <input id="accessCode" type="password" autocomplete="off" placeholder="请输入访问码" />
-          </label>
-          <button type="submit" class="primary-action">进入测试</button>
-          <p id="accessMessage" class="status-message" role="status"></p>
-        </form>
-      </section>
-
       <section class="workspace" aria-label="咖啡杯签诗生成器">
         <aside class="control-panel">
           <div class="brand-block">
@@ -185,7 +171,7 @@
     </main>
 
     <script>
-      window.COFFEE_POET_API_ENDPOINT = location.protocol.startsWith("http") ? "/api/poem" : "";
+      window.COFFEE_POET_API_ENDPOINT = "";
     </script>
     <script src="./script.js"></script>
   </body>

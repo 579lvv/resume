@@ -1,8 +1,4 @@
 const form = document.querySelector("#poemForm");
-const accessGate = document.querySelector("#accessGate");
-const accessForm = document.querySelector("#accessForm");
-const accessCodeInput = document.querySelector("#accessCode");
-const accessMessage = document.querySelector("#accessMessage");
 const nicknameInput = document.querySelector("#nickname");
 const moodInput = document.querySelector("#mood");
 const poemLines = document.querySelector("#poemLines");
@@ -615,49 +611,6 @@ function setStatus(message) {
   }, 2200);
 }
 
-async function verifyAccessCode(code) {
-  if (!aiEndpoint) {
-    return { ok: true, token: "local-preview" };
-  }
-
-  const response = await fetch("/api/access", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code }),
-  });
-  return response.json();
-}
-
-function unlockAccess(token) {
-  accessToken = token;
-  sessionStorage.setItem("coffeePoetAccessToken", token);
-  accessGate.classList.add("is-hidden");
-  if (state.history.length > 0) {
-    state.activeId = state.history[0].id;
-    renderPoem(state.history[0]);
-    renderHistory();
-    setStatus("当前显示历史记录，点击生成三行诗可请求 DeepSeek");
-  } else {
-    generatePoem();
-  }
-}
-
-accessForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  accessMessage.textContent = "正在验证";
-  try {
-    const result = await verifyAccessCode(accessCodeInput.value);
-    if (result.ok && result.token) {
-      accessMessage.textContent = "";
-      unlockAccess(result.token);
-      return;
-    }
-    accessMessage.textContent = "访问码不正确";
-  } catch {
-    accessMessage.textContent = "验证失败，请稍后重试";
-  }
-});
-
 document.querySelectorAll(".chip").forEach((chip) => {
   chip.addEventListener("click", () => {
     document.querySelectorAll(".chip").forEach((item) => item.classList.remove("is-active"));
@@ -933,13 +886,10 @@ window.addEventListener("resize", () => {
 setTheme("ink");
 renderHistory();
 
-if (accessToken || !aiEndpoint) {
-  accessGate.classList.add("is-hidden");
-  if (state.history.length > 0) {
-    state.activeId = state.history[0].id;
-    renderPoem(state.history[0]);
-    renderHistory();
-  } else {
-    generatePoem();
-  }
+if (state.history.length > 0) {
+  state.activeId = state.history[0].id;
+  renderPoem(state.history[0]);
+  renderHistory();
+} else {
+  generatePoem();
 }
