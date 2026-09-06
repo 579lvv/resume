@@ -512,9 +512,33 @@
         ::-webkit-scrollbar-thumb:hover { background: rgba(0,0,0,0.22); }
 
         @media (max-width: 680px) {
-            .sidebar { width: 175px; padding: 8px; }
-            .scene-frame { width: 135px; }
-            .proj-title-input { width: 135px; }
+            /* 移动端：解除 100vh 应用锁高，整页自然滚动，三栏改纵向堆叠，每个模块全宽呈现 */
+            body { height: auto; min-height: 100vh; overflow: auto; }
+            .layout { flex-direction: column; overflow: visible; }
+            .sidebar {
+                width: auto;
+                overflow: visible;
+                padding: 10px 12px;
+                box-shadow: none;
+                border-bottom: 1px solid var(--border);
+            }
+            .page { overflow-y: visible; padding: 12px 12px 28px; }
+            .ws-toolbar { flex-wrap: wrap; row-gap: 8px; }
+            .proj-title-group { width: 100%; }
+            .proj-title-input { width: 100%; }
+
+            /* 分镜卡内部：序号条横置、文字区全宽、画面全宽 16:9 */
+            .scene-card { flex-direction: column; }
+            .scene-gutter {
+                width: auto; flex-direction: row; align-items: center;
+                border-right: none; border-bottom: 1px solid var(--border);
+            }
+            .gutter-btn { flex: 0 0 auto; padding: 6px 10px; }
+            .scene-frame {
+                width: 100%;
+                border-left: none; border-top: 1px solid var(--border);
+                padding: 10px;
+            }
         }
     </style>
 </head>
