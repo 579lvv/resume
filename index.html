@@ -3675,16 +3675,12 @@
     const trackedSections = Array.from(navItems).map(link => document.querySelector(link.getAttribute('href'))).filter(Boolean);
 
     function updateNavScrollspy() {
-      const scrollY = window.scrollY;
-      const triggerPoint = scrollY + 160;
+      // 用真实视口位置（getBoundingClientRect）而非 offsetTop——后者会因 margin 塌陷产生偏差，
+      // 导致点击跳转后标题已到导航下方、高亮却仍停留在上一个模块
+      const triggerY = 175; // 触发线：略高于移动端导航岛底部
       let activeSec = null;
       for (const sec of trackedSections) {
-        const top = sec.offsetTop;
-        const height = sec.offsetHeight;
-        if (triggerPoint >= top && triggerPoint < top + height) {
-          activeSec = sec;
-          break;
-        }
+        if (sec.getBoundingClientRect().top <= triggerY) activeSec = sec; else break;
       }
       navItems.forEach(link => {
         if (activeSec && link.getAttribute('href') === '#' + activeSec.id) {
