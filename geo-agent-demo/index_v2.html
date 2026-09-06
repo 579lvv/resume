@@ -84,6 +84,17 @@
     [v-cloak] {
       display: none !important;
     }
+    /* 移动端顶栏：两行布局，避免文字与按钮挤压换行 */
+    @media (max-width: 560px) {
+      header .h-16 { height: auto; flex-wrap: wrap; row-gap: 6px; padding: 8px 14px; }
+      header h1 { font-size: 14px; white-space: nowrap; }
+      header h1 + span { font-size: 10px; padding: 2px 7px; white-space: nowrap; }
+      header .flex.items-center.space-x-2\.5 { width: 100%; margin-left: auto; justify-content: flex-end; }
+      header .space-x-1\.5 { gap: 4px; }
+      header button { padding: 6px 10px; }
+      header button span { white-space: nowrap; }
+    }
+
     @media print {
       body * { visibility: hidden; }
       #printable-report, #printable-report * { visibility: visible; }
