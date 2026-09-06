@@ -362,7 +362,7 @@ body {
 <div class="story-demo-stage">
   <div class="story-step-bar" id="stepBar">
     <span class="story-live-dot"></span>
-    <span id="stepText">Step 1: 导入原著文稿《百年孤独》</span>
+    <span id="stepText">Step 1: 导入文稿</span>
   </div>
 
   <!-- Left Control Panel -->
@@ -558,12 +558,12 @@ function runStoryboardLoop() {
   const splitBtn = document.getElementById('splitBtn');
 
   // Step 1: 文稿就绪
-  stepText.textContent = `Step 1: 导入原著文稿《百年孤独》经典段落`;
+  stepText.textContent = `Step 1: 导入文稿`;
   resetAllCards();
 
   // Step 2: 点击触发拆解
   timer = setTimeout(() => {
-    stepText.textContent = `Step 2: 触发智能分镜拆解 · 锁定 MJ-v6 提示词`;
+    stepText.textContent = `Step 2: 智能分镜拆解`;
     splitBtn.classList.add('is-pulsing');
     setTimeout(() => splitBtn.classList.remove('is-pulsing'), 350);
 
@@ -577,7 +577,7 @@ function runStoryboardLoop() {
 
     // Step 3: 并发渲染出图
     timer = setTimeout(() => {
-      stepText.textContent = `Step 3: 4路分镜并发渲染完成 · 影视级构图输出`;
+      stepText.textContent = `Step 3: 分镜渲染`;
       renderAllShots();
 
       // 停留展示 4 秒后循环

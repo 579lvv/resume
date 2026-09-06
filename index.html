@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>刘前葳的个人网站</title>
+<title>Vivian | Personal Portfolio</title>
 <style>
   :root {
     --bg: #f6f3eb;
@@ -73,8 +73,6 @@
   a { color: inherit; text-decoration: none; }
 
   /* 光标跟随 */
-  .cursor-dot { position: fixed; top: 0; left: 0; z-index: 9999; pointer-events: none; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); transform: translate(-50%,-50%); mix-blend-mode: difference; opacity: 0; }
-  .cursor-ring { position: fixed; top: 0; left: 0; z-index: 9998; pointer-events: none; width: 40px; height: 40px; border: 1.5px solid var(--accent); border-radius: 50%; transform: translate(-50%,-50%); opacity: 0; transition: width .25s, height .25s; mix-blend-mode: difference; }
 
   /* 悬浮胶囊独立导航栏 (Floating Capsule Island) */
   .nav-wrapper {
@@ -109,7 +107,7 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    font-size: 12.5px;
+    font-size: 14px;
     font-weight: 600;
     font-family: inherit;
     padding: 6px 14px;
@@ -166,8 +164,8 @@
     gap: 12px;
   }
   .nav-avatar-badge {
-    width: 32px;
-    height: 32px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background: var(--ink);
     color: var(--white);
@@ -179,7 +177,7 @@
     justify-content: center;
   }
   .nav-logo-text {
-    font-size: 14px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: .08em;
     color: var(--ink);
@@ -189,12 +187,12 @@
     display: flex;
     align-items: center;
     gap: 4px;
-    font-size: 13px;
+    font-size: 15px;
     color: var(--ink-soft);
   }
   .nav-links a {
     position: relative;
-    padding: 4px 12px;
+    padding: 5px 13px;
     border-radius: 100px;
     transition: all .25s cubic-bezier(0.2, 0.8, 0.2, 1);
     display: flex;
@@ -206,7 +204,7 @@
     text-decoration: none;
   }
   .nav-links .nav-en {
-    font-size: 9px;
+    font-size: 10.5px;
     letter-spacing: .14em;
     text-transform: uppercase;
     color: var(--muted);
@@ -313,7 +311,7 @@
       border-radius: 14px;
       font-size: 15px;
     }
-    .nav-links .nav-en { font-size: 10px; }
+    .nav-links .nav-en { font-size: 11px; }
   }
   @keyframes navMenuIn {
     from { opacity: 0; transform: translateY(-8px); }
@@ -454,12 +452,11 @@
   }
 
   .hero-tagline {
-    font-size: 15px;
     line-height: 1.8;
     color: var(--ink-soft);
     max-width: 58ch;
     margin-bottom: 28px;
-    font-size: 15.5px;
+    font-size: 16px;
   }
   .hero-tagline-grid {
     display: flex; flex-direction: column; gap: 13px;
@@ -468,12 +465,12 @@
   .ht-field { display: block; }
   .ht-label {
     display: block;
-    font-size: 13px; font-weight: 700;
+    font-size: 15px; font-weight: 700;
     color: var(--ink);
     margin-bottom: 2px;
   }
   .ht-label::before { content: "| "; color: var(--accent); }
-  .ht-field p { font-size: 14px; line-height: 1.68; color: var(--ink-soft); margin: 0; }
+  .ht-field p { font-size: 16px; line-height: 1.75; color: var(--ink-soft); margin: 0; }
 
   .hero-tags {
     display: flex;
@@ -566,24 +563,23 @@
     inset: -16px;
     border-radius: 230px 230px 56px 56px;
     background: linear-gradient(135deg, rgba(42, 168, 118, 0.28), rgba(120, 82, 169, 0.22), rgba(232, 123, 100, 0.32));
-    filter: blur(14px);
-    opacity: 0.75;
+    filter: blur(20px);
+    opacity: 0.38;
     z-index: -1;
   }
   .arch-avatar-frame {
     width: 100%;
     height: 100%;
     border-radius: 220px 220px 48px 48px;
-    background: linear-gradient(180deg, #d3e5eb 0%, #b8cde0 100%);
-    border: 4px solid var(--white);
-    box-shadow: 0 24px 60px rgba(45, 30, 20, 0.14), inset 0 0 0 1.5px rgba(22, 20, 15, 0.08);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     overflow: hidden;
     position: relative;
-    transition: transform .4s ease, box-shadow .4s ease;
+    transition: transform .4s ease;
   }
   .arch-avatar-frame:hover {
     transform: translateY(-4px) scale(1.01);
-    box-shadow: 0 30px 70px rgba(45, 30, 20, 0.18);
   }
   .arch-avatar-img {
     width: 100%;
@@ -591,6 +587,8 @@
     object-fit: cover;
     object-position: center top;
     display: block;
+    mix-blend-mode: multiply;
+    filter: brightness(1.12);
   }
 
   .sticker-badge {
@@ -798,7 +796,7 @@
   .exp-desc ul { list-style: none; margin-top: 10px; margin-left: -18px; padding-left: 0; }
   .exp-desc li { position: relative; padding-left: 18px; margin-top: 6px; }
   .exp-desc li::before { content: "—"; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: 600; font-family: inherit; }
-  .exp-desc p + p { margin-top: 8px; position: relative; padding-left: 18px; }
+  .exp-desc p + p { margin-top: 8px; margin-left: -18px; position: relative; padding-left: 18px; }
   .exp-desc p + p::before { content: "—"; position: absolute; left: 0; top: 0; color: var(--accent); font-weight: 600; font-family: inherit; }
 
   /* ================= 04 PORTFOLIO: SHOWCASE CARDS ================= */
@@ -1547,30 +1545,7 @@
     margin-top: -4px;
     padding-right: 4px;
   }
-  .ui-scroll-container {
-    display: flex;
-    gap: 16px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 8px;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(22, 20, 15, 0.2) transparent;
-    scroll-snap-type: x mandatory;
-    -webkit-overflow-scrolling: touch;
-  }
-  .ui-scroll-container::-webkit-scrollbar {
-    height: 5px;
-  }
-  .ui-scroll-container::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  .ui-scroll-container::-webkit-scrollbar-thumb {
-    background: rgba(22, 20, 15, 0.2);
-    border-radius: 10px;
-  }
-  .ui-scroll-container::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
-  }
+  .ui-marquee .ui-scroll-item { margin-right: 16px; }
   .ui-scroll-item {
     flex: 0 0 auto;
     width: clamp(260px, 32vw, 380px);
@@ -1582,7 +1557,6 @@
     border: 1px solid rgba(22, 20, 15, 0.06);
     background: #fbf9f4;
     transition: transform .3s ease, box-shadow .3s ease;
-    scroll-snap-align: start;
   }
   .ui-scroll-item:hover {
     transform: translateY(-4px) scale(1.01);
@@ -2251,32 +2225,25 @@
   .arch-mod-name { font-size: 23px; font-weight: 800; color: var(--ink); letter-spacing: -.01em; margin: 0; }
   .arch-mod-count { font-family: monospace; font-size: 12px; color: var(--muted); }
   .arch-mod-desc { margin: 8px 0 0; font-size: 13px; line-height: 1.7; color: var(--muted); max-width: 74ch; }
-  .arch-row {
-    display: flex; gap: 22px; margin-top: 16px;
-    overflow-x: auto; scroll-snap-type: x proximity;
-    padding: 2px 2px 10px;
-    scrollbar-width: thin;
-    cursor: grab;
+  /* 实景/拼贴/UI 案例条：从右向左自动循环（悬停暂停） */
+  .arch-marquee-rtl .arch-marquee-strip { animation-name: archMarqueeRTL; }
+  @keyframes archMarqueeRTL {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
-  .arch-row::-webkit-scrollbar { height: 8px; }
-  .arch-row::-webkit-scrollbar-thumb { background: rgba(22, 20, 15, 0.18); border-radius: 4px; }
   .arch-shot {
-    flex: 0 0 auto; margin: 0;
-    width: min(66vw, 940px); aspect-ratio: 3 / 2;
+    flex: 0 0 auto; margin: 0 22px 0 0;
+    width: min(480px, 78vw); aspect-ratio: 3 / 2;
     border-radius: 16px; overflow: hidden;
-    scroll-snap-align: center;
     background: var(--bg-soft); cursor: zoom-in;
     box-shadow: 0 16px 40px rgba(45, 30, 20, 0.10);
   }
   .arch-shot img {
     width: 100%; height: 100%;
     object-fit: cover; display: block;
-    transform: scale(1.09);
     transition: transform .45s ease;
   }
-  .arch-shot:hover img { transform: scale(1.12); }
-  .arch-row.is-dragging { cursor: grabbing; }
-  .arch-row.is-dragging .arch-shot:hover img { transform: scale(1.09); }
+  .arch-shot:hover img { transform: scale(1.06); }
   .arch-explore-hint {
     margin: 10px 0 0;
     font-family: "Century Gothic", "CenturyGothic", "Helvetica Neue", Helvetica, sans-serif;
@@ -2284,49 +2251,37 @@
     color: var(--muted); text-transform: uppercase;
   }
   .arch-explore-hint span { color: var(--accent); }
-  .arch-tone-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 24px;
-    margin-top: 18px;
-    align-items: start;
-    height: clamp(600px, 72vh, 760px);
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 6px 12px 6px 4px;
-    scroll-behavior: smooth;
-    cursor: grab;
-  }
-  .arch-tone-container.is-dragging {
-    cursor: grabbing;
-    user-select: none;
-  }
-  .arch-tone-container::-webkit-scrollbar {
-    width: 6px;
-  }
-  .arch-tone-container::-webkit-scrollbar-track {
-    background: rgba(0, 0, 0, 0.03);
-    border-radius: 99px;
-  }
-  .arch-tone-container::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.16);
-    border-radius: 99px;
-  }
-  .arch-tone-container::-webkit-scrollbar-thumb:hover {
-    background: var(--accent);
-  }
-  .arch-tone-column {
+  /* 手工模型渲染：两行横向自动循环画廊（从左至右，无缝循环，悬停暂停） */
+  .arch-marquee {
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
+    margin-top: 18px;
+    overflow: hidden;
   }
+  .arch-marquee-row {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 3%, #000 97%, transparent 100%);
+  }
+  .arch-marquee-strip {
+    display: flex;
+    width: max-content;
+    animation: archMarquee var(--dur, 80s) linear infinite;
+    will-change: transform;
+  }
+  .arch-marquee-row:hover .arch-marquee-strip { animation-play-state: paused; }
+  .arch-marquee.paused .arch-marquee-strip { animation-play-state: paused; }
   .arch-tone-item {
+    flex: none;
+    width: min(460px, 78vw);
+    margin-right: 20px;
+    aspect-ratio: 1.4;
     border-radius: 16px;
     overflow: hidden;
     background: var(--bg-soft);
     box-shadow: 0 6px 22px rgba(22, 20, 15, 0.06);
     cursor: zoom-in;
-    aspect-ratio: 1.4;
     position: relative;
     transition: transform .35s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
   }
@@ -2350,20 +2305,41 @@
   .arch-tone-item:hover img.fill-scale {
     transform: scale(1.30);
   }
-  .arch-tone-item.arch-tone-wide {
-    grid-column: 1 / -1;
-    aspect-ratio: 2.88;
+  @keyframes archMarquee {
+    from { transform: translateX(-50%); }
+    to { transform: translateX(0); }
   }
-  @media (max-width: 768px) {
-    .arch-tone-container {
-      grid-template-columns: 1fr;
-      height: 560px;
-      gap: 20px;
-      padding-right: 6px;
-    }
+  @media (prefers-reduced-motion: reduce) {
+    .arch-marquee-strip { animation: none; }
+    .arch-marquee { overflow-x: auto; }
   }
   @media (max-width: 860px) { .arch-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
   @media (max-width: 560px) { .arch-grid { grid-template-columns: 1fr; } }
+
+  /* 品牌出海作品卡：双视频顺序播放 + 流程注解条 */
+  .vibe-clip-col { display: flex; flex-direction: column; height: 100%; }
+  .vibe-clip-stage { position: relative; flex: 1; min-height: 420px; display: flex; flex-direction: column; gap: 12px; overflow: hidden; background: #F8F7F5; }
+  .clip-cell { position: relative; flex: 1; overflow: hidden; border-radius: 12px; background: #eceae4; width: 100%; }
+  .clip-cell video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .clip-cell .clip-tag { position: absolute; left: 10px; top: 10px; z-index: 3; }
+  .clip-tag {
+    position: absolute; left: 14px; top: 12px; z-index: 3;
+    background: rgba(16, 16, 16, 0.62); color: #fff;
+    font-size: 11px; letter-spacing: .06em; padding: 5px 12px; border-radius: 100px;
+    backdrop-filter: blur(4px);
+  }
+  .geo-bottom-pipeline {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(22, 20, 15, 0.08);
+    border-radius: 8px;
+    padding: 8px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+  }
+  .geo-pipe-flow { display: flex; align-items: center; gap: 6px; color: var(--ink-soft); }
+  .geo-pipe-arrow { color: var(--accent); font-weight: 700; }
 
   /* ================= 06 CONTACT & FOOTER ================= */
   .contact-section { text-align: center; padding: 130px 0 100px; }
@@ -2898,8 +2874,6 @@
 </style>
 </head>
 <body>
-  <div class="cursor-dot" id="dot"></div>
-  <div class="cursor-ring" id="ring"></div>
 
   <!-- 悬浮胶囊独立导航栏 (Floating Capsule Island) -->
   <div class="nav-wrapper">
@@ -2936,7 +2910,7 @@
           <div class="hero-top-bar">
             <div class="greeting-pill">
               <span class="status-dot-green"></span>
-              <span>OPEN TO WORK · 2027 届硕士 · 上海</span>
+              <span>OPEN TO WORK · 2027 届硕士</span>
             </div>
           </div>
 
@@ -2983,7 +2957,7 @@
 
             <!-- 拱门头像框 -->
             <div class="arch-avatar-frame">
-              <img class="arch-avatar-img" src="形象照.webp" alt="刘前葳" />
+              <img decoding="async" class="arch-avatar-img" src="形象照.webp" alt="刘前葳" />
             </div>
 
             <!-- 右下角 NOW 状态微卡片 -->
@@ -3017,7 +2991,7 @@
           </div>
           <div class="mbti-orbit">
             <a class="mbti-avatar" href="https://www.16personalities.com/ch/infj-%E4%BA%BA%E6%A0%BC" target="_blank" rel="noopener" title="点击了解 INFJ「倡导者」人格">
-              <img src="绿老头.png" alt="INFJ 倡导者" />
+              <img decoding="async" src="绿老头.png" alt="INFJ 倡导者" />
             </a>
             <span class="mbti-tag t1">共情力</span>
             <span class="mbti-tag t2">创造力</span>
@@ -3060,9 +3034,9 @@
             <div class="edu-desc">校优秀学生</div>
           </div>
           <div class="edu-photo-wrap">
-            <img class="edu-photo" src="同济大学校门.webp" alt="同济大学校门" />
+            <img decoding="async" class="edu-photo" src="同济大学校门.webp" alt="同济大学校门" />
             <div class="edu-badge" title="同济大学校徽">
-              <img src="学校校徽/同济大学校徽.webp" alt="同济大学校徽" />
+              <img decoding="async" src="学校校徽/同济大学校徽.webp" alt="同济大学校徽" />
             </div>
           </div>
         </div>
@@ -3075,9 +3049,9 @@
             <div class="edu-desc">优秀应届毕业生</div>
           </div>
           <div class="edu-photo-wrap">
-            <img class="edu-photo" src="郑州大学校门.webp" alt="郑州大学校门" style="object-position:center 34%;" />
+            <img decoding="async" class="edu-photo" src="郑州大学校门.webp" alt="郑州大学校门" style="object-position:center 34%;" />
             <div class="edu-badge" title="郑州大学校徽">
-              <img src="学校校徽/郑州大学校徽.webp" alt="郑州大学校徽" />
+              <img decoding="async" src="学校校徽/郑州大学校徽.webp" alt="郑州大学校徽" />
             </div>
           </div>
         </div>
@@ -3101,7 +3075,7 @@
           <div class="exp-year">2025.10 — 2026.02</div>
           <div>
             <div class="exp-head">
-              <img class="exp-logo" src="logos/weimob.png" alt="微盟 Weimob" />
+              <img decoding="async" class="exp-logo" src="logos/weimob.png" alt="微盟 Weimob" />
               <div>
                 <div class="exp-role">上海微盟企业发展有限公司</div>
                 <div class="exp-co">营销技术云 | GEO 产品运营（实习生）</div>
@@ -3119,7 +3093,7 @@
           <div class="exp-year">2025.01 — 2025.07</div>
           <div>
             <div class="exp-head">
-              <img class="exp-logo" src="logos/again.png" alt="再来爱珍 Again" />
+              <img decoding="async" class="exp-logo" src="logos/again.png" alt="再来爱珍 Again" />
               <div>
                 <div class="exp-role">上海再来爱珍科技中心</div>
                 <div class="exp-co">产品设计部 | 产品经理（实习生）</div>
@@ -3139,7 +3113,7 @@
           <div class="exp-year">2023.10 — 2024.01</div>
           <div>
             <div class="exp-head">
-              <img class="exp-logo" src="logos/gad.png" alt="gad 绿城设计" />
+              <img decoding="async" class="exp-logo" src="logos/gad.png" alt="gad 绿城设计" />
               <div>
                 <div class="exp-role">gad · 浙江绿城建筑设计有限公司重庆分公司</div>
                 <div class="exp-co">建筑二部 | 助理设计师（实习生）</div>
@@ -3189,7 +3163,7 @@
             <!-- 作品 01：GEO自动化工作流 -->
             <div class="vibe-product-card">
               <div class="vibe-product-preview" style="min-height: 480px; height: 100%;">
-                <iframe src="vibecoding作品/GEO工作流/live_demo.html" title="GEO 自动化工作流 搭建逻辑与数据闭环" style="width:100%; height:100%; min-height:480px; border:none; display:block; flex:1; background:#FAF8F5;" loading="lazy"></iframe>
+                <iframe src="vibecoding作品/GEO工作流/live_demo.html?v=2" title="GEO 自动化工作流 搭建逻辑与数据闭环" style="width:100%; height:100%; min-height:480px; border:none; display:block; flex:1; background:#FAF8F5;" loading="lazy"></iframe>
               </div>
               <div class="vibe-product-copy">
                 <div class="vibe-copy-top">
@@ -3223,8 +3197,41 @@
 
                         <!-- 作品 02：品牌出海内容迁移 (反向左右排版) -->
             <div class="vibe-product-card vibe-card-reverse">
-              <div class="vibe-product-preview" style="min-height: 560px; height: 100%;">
-                <iframe src="vibecoding作品/Agian出海/architecture_flow.html" title="A'GAIN 品牌出海 · Vibe Coding 全栈重构架构与链路" style="width:100%; height:100%; min-height:560px; border:none; display:block; flex:1; background:#FAF8F5;" loading="lazy"></iframe>
+              <div class="vibe-product-preview vibe-clip-col" style="min-height: 520px;">
+                <div class="vibe-clip-stage">
+                  <div class="clip-cell">
+                    <video src="vibecoding作品/Agian出海/recordings/again_cn_scroll.mp4" muted autoplay loop playsinline></video>
+                    <span class="clip-tag">迁移前 · 国内官网</span>
+                  </div>
+                  <div class="clip-cell">
+                    <video src="vibecoding作品/Agian出海/recordings/again_global_scroll.mp4" muted autoplay loop playsinline></video>
+                    <span class="clip-tag">迁移后 · agent快速适配出海</span>
+                  </div>
+                </div>
+                <script>
+                  // 离开视口自动暂停、进入即恢复（省资源）
+                  (function () {
+                    const stage = document.querySelector('.vibe-clip-stage');
+                    if (!stage) return;
+                    const vids = [...stage.querySelectorAll('video')];
+                    const io = new IntersectionObserver(entries => {
+                      entries.forEach(en => en.isIntersecting ? vids.forEach(v => v.play().catch(() => {})) : vids.forEach(v => v.pause()));
+                    }, { threshold: 0 });
+                    io.observe(stage);
+                    const retry = () => vids.forEach(v => { if (v.paused) v.play().catch(() => {}); });
+                    window.addEventListener('scroll', retry, { passive: true });
+                    window.addEventListener('pointermove', retry, { passive: true });
+                  })();
+                </script>
+                <div class="geo-bottom-pipeline geo-pipeline-center">
+                  <div class="geo-pipe-flow">
+                    <span>输入对标品牌</span> <span class="geo-pipe-arrow">➔</span>
+                    <span>解析国内资产</span> <span class="geo-pipe-arrow">➔</span>
+                    <span>跨文化内容重构</span> <span class="geo-pipe-arrow">➔</span>
+                    <span>风格迁移生成</span> <span class="geo-pipe-arrow">➔</span>
+                    <span>出海官网上线</span>
+                  </div>
+                </div>
               </div><div class="vibe-product-copy">
                 <div class="vibe-copy-top">
                   <div class="vibe-item-index-row">
@@ -3232,11 +3239,11 @@
                     <span class="vibe-item-date">2025.08</span>
                   </div>
                   <h4 class="vibe-item-title">品牌出海内容迁移</h4>
-                  <p class="vibe-item-summary">将国内可持续香氛品牌A'GAIN通过 Vibe Coding快速打造出面向海外市场的品牌官网。</p>
+                  <p class="vibe-item-summary">将国内可持续香氛品牌“AGAIN再来”通过 Vibe Coding快速打造出面向海外市场的品牌官网。</p>
                   <div class="vibe-structured-desc">
                     <div class="vibe-desc-row">
                       <span class="vibe-desc-label">背景</span>
-                      <span class="vibe-desc-text">国内原版网站以基础的商品图文罗列为主，信息分散，缺乏品牌在咖啡渣循环利用上的故事感，难以打动海外对可持续和生活方式挑剔的用户。</span>
+                      <span class="vibe-desc-text">品牌计划出海打造国际版官网，但国内站的内容与呈现方式直接迁移至海外站点时，面临语言表达、审美风格与使用习惯的多重不适配，难以打动海外对可持续和生活方式挑剔的用户。</span>
                     </div>
                     <div class="vibe-desc-row">
                       <span class="vibe-desc-label">策略</span>
@@ -3282,14 +3289,14 @@
                   <iframe src="vibecoding作品/三行诗-标签打印/live_demo.html" title="咖啡杯三行诗生成器 Web 原型" style="width:100%; height:100%; min-height:438px; border:none; display:block; background:#FAF8F5;" loading="lazy"></iframe>
                   <!-- 右下角悬浮画中画引导角标 -->
                   <div onclick="switchPoetView('photo')" style="position:absolute; bottom:12px; right:12px; display:inline-flex; align-items:center; gap:8px; padding:6px 12px 6px 8px; background:rgba(22,20,15,0.88); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); color:#ffffff; border-radius:100px; font-size:11px; font-weight:600; box-shadow:0 6px 18px rgba(0,0,0,0.25); cursor:pointer; transition:all .25s ease;" title="点击切换查看天使学堂实体杯签落地实拍">
-                    <img src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" alt="实体落地" style="width:22px; height:22px; border-radius:50%; object-fit:cover; border:1.5px solid rgba(255,255,255,0.8);" />
+                    <img decoding="async" src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" alt="实体落地" style="width:22px; height:22px; border-radius:50%; object-fit:cover; border:1.5px solid rgba(255,255,255,0.8);" />
                     <span>查看实体落地实拍 ↗</span>
                   </div>
                 </div>
 
                 <!-- 视图 2：实体落地实拍展示 (切换展示) -->
                 <div id="poet-photo-view" style="flex:1; width:100%; height:100%; min-height:438px; display:none; flex-direction:column; position:relative; background:#16140f; overflow:hidden;">
-                  <img id="poet-main-photo" src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" alt="同济大学天使学堂实体杯贴实拍" style="width:100%; height:100%; min-height:360px; object-fit:cover; display:block; transition:opacity .3s ease;" />
+                  <img decoding="async" id="poet-main-photo" src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" alt="同济大学天使学堂实体杯贴实拍" style="width:100%; height:100%; min-height:360px; object-fit:cover; display:block; transition:opacity .3s ease;" />
                   <!-- 照片切换浮动工具条 -->
                   <div style="position:absolute; bottom:0; left:0; right:0; padding:12px 16px; background:linear-gradient(to top, rgba(0,0,0,0.85), transparent); display:flex; justify-content:space-between; align-items:center;">
                     <div style="color:rgba(255,255,255,0.92); font-size:11px; font-weight:600;">
@@ -3297,10 +3304,10 @@
                     </div>
                     <div style="display:flex; gap:6px;">
                       <button onclick="changePoetPhoto('vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp', this)" type="button" style="width:32px; height:24px; border-radius:4px; overflow:hidden; border:1.5px solid #ffffff; padding:0; cursor:pointer; background:none;">
-                        <img src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" style="width:100%; height:100%; object-fit:cover;" />
+                        <img decoding="async" src="vibecoding作品/三行诗-标签打印/a88838f902284b9e1e058b0ccb4a94e4_c.webp" style="width:100%; height:100%; object-fit:cover;" />
                       </button>
                       <button onclick="changePoetPhoto('vibecoding作品/三行诗-标签打印/b8ae770098bc82a62a3963880580a8bc.jpg', this)" type="button" style="width:32px; height:24px; border-radius:4px; overflow:hidden; border:1.5px solid transparent; opacity:0.6; padding:0; cursor:pointer; background:none;">
-                        <img src="vibecoding作品/三行诗-标签打印/b8ae770098bc82a62a3963880580a8bc.jpg" style="width:100%; height:100%; object-fit:cover;" />
+                        <img decoding="async" src="vibecoding作品/三行诗-标签打印/b8ae770098bc82a62a3963880580a8bc.jpg" style="width:100%; height:100%; object-fit:cover;" />
                       </button>
                     </div>
                   </div>
@@ -3415,7 +3422,7 @@
             <!-- 主图 + 文字介绍（编辑式两栏） -->
             <div class="ui-hero-grid">
               <div class="ui-hero-main" onclick="openArchGallery('ui', 0)">
-                <img class="ui-hero-img" src="建筑·空间·UI设计作品/UI设计作品/01_Coloring_The_Emoji_c.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-hero-img" src="建筑·空间·UI设计作品/UI设计作品/01_Coloring_The_Emoji_c.webp" alt="" loading="lazy" />
               </div>
               <aside class="ui-hero-info">
                 <div class="ui-intro-col">
@@ -3429,26 +3436,44 @@
               </aside>
             </div>
 
-            <div class="ui-scroll-container">
+            <div class="arch-marquee arch-marquee-rtl ui-marquee">
+              <div class="arch-marquee-row"><div class="arch-marquee-strip" style="animation-duration:30s">
               <div class="ui-scroll-item" onclick="openArchGallery('ui', 1)">
-                <img class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/02_Coloring_The_Emoji_Mockup_c.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/02_Coloring_The_Emoji_Mockup_c.webp" alt="" loading="lazy" />
               </div>
               <div class="ui-scroll-item" onclick="openArchGallery('ui', 2)">
-                <img class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/11.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/11.webp" alt="" loading="lazy" />
               </div>
               <div class="ui-scroll-item" onclick="openArchGallery('ui', 3)">
-                <img class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/22.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/22.webp" alt="" loading="lazy" />
               </div>
               <div class="ui-scroll-item" onclick="openArchGallery('ui', 4)">
-                <img class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/33.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/33.webp" alt="" loading="lazy" />
               </div>
               <div class="ui-scroll-item" onclick="openArchGallery('ui', 5)">
-                <img class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/44.webp" alt="" loading="lazy" />
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/44.webp" alt="" loading="lazy" />
               </div>
+            
+              <div class="ui-scroll-item" onclick="openArchGallery('ui', 1)">
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/02_Coloring_The_Emoji_Mockup_c.webp" alt="" loading="lazy" />
+              </div>
+              <div class="ui-scroll-item" onclick="openArchGallery('ui', 2)">
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/11.webp" alt="" loading="lazy" />
+              </div>
+              <div class="ui-scroll-item" onclick="openArchGallery('ui', 3)">
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/22.webp" alt="" loading="lazy" />
+              </div>
+              <div class="ui-scroll-item" onclick="openArchGallery('ui', 4)">
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/33.webp" alt="" loading="lazy" />
+              </div>
+              <div class="ui-scroll-item" onclick="openArchGallery('ui', 5)">
+                <img decoding="async" class="ui-scroll-img" src="建筑·空间·UI设计作品/UI设计作品/44.webp" alt="" loading="lazy" />
+              </div>
+                          </div></div>
             </div>
 
             <div class="ui-scroll-hint-bottom">
-              <span>DRAG / SCROLL TO EXPLORE →</span>
+              <span>AUTO PLAYING · HOVER TO PAUSE ↻</span>
             </div>
           </div>
         </div>
@@ -3592,7 +3617,7 @@
       <button class="arch-nav-btn arch-nav-prev" id="archNavPrev" type="button" aria-label="上一张" onclick="navArchGallery(-1)">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
       </button>
-      <img class="arch-modal-main-img" id="archModalMainImg" src="" alt="画廊高清大图" />
+      <img decoding="async" class="arch-modal-main-img" id="archModalMainImg" src="" alt="画廊高清大图" />
       <button class="arch-nav-btn arch-nav-next" id="archNavNext" type="button" aria-label="下一张" onclick="navArchGallery(1)">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
       </button>
@@ -3622,28 +3647,7 @@
     }, {threshold: 0.12});
     document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-    // 自定义平滑跟随光标
-    const dot = document.getElementById('dot');
-    const ring = document.getElementById('ring');
-    let mx=0, my=0, rx=0, ry=0;
-    window.addEventListener('mousemove', e=>{ 
-      mx=e.clientX; my=e.clientY; 
-      dot.style.opacity=1; ring.style.opacity=1; 
-      dot.style.transform=`translate(${mx}px,${my}px) translate(-50%,-50%)`; 
-    });
-    function anim(){ 
-      rx += (mx-rx)*.16; 
-      ry += (my-ry)*.16; 
-      ring.style.transform=`translate(${rx}px,${ry}px) translate(-50%,-50%)`; 
-      requestAnimationFrame(anim); 
-    }
-    anim();
 
-    // 交互元素悬浮光标放大
-    document.querySelectorAll('a, button, .strip-card, .mbti-avatar, .tile').forEach(el=>{
-      el.addEventListener('mouseenter',()=>{ ring.style.width='64px'; ring.style.height='64px'; ring.style.borderColor='var(--accent)'; });
-      el.addEventListener('mouseleave',()=>{ ring.style.width='40px'; ring.style.height='40px'; ring.style.borderColor='var(--accent)'; });
-    });
 
     // 导航栏滚动高亮 (Scrollspy Active Capsule)
     const navItems = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -4132,7 +4136,7 @@
         if (archThumbStrip) {
         archThumbStrip.innerHTML = gallery.items.map((item, idx) => `
           <div class="arch-thumb-item ${idx === startIndex ? 'active' : ''}" onclick="selectArchImage(${idx})">
-            <img class="arch-thumb-img" src="${item.src}" alt="" loading="lazy" />
+            <img decoding="async" class="arch-thumb-img" src="${item.src}" alt="" loading="lazy" />
           </div>
         `).join('');
       }
@@ -4475,27 +4479,6 @@
         if (mod) mod.scrollIntoView({ behavior: 'smooth', block: 'start' });
       });
 
-      function attachDrag(row) {
-        let down = false, sx = 0, sl = 0;
-        row.addEventListener('pointerdown', (e) => {
-          if (e.pointerType !== 'mouse') return;
-          down = true; sx = e.clientX; sl = row.scrollLeft;
-          row.dataset.moved = '0';
-          row.classList.add('is-dragging');
-        });
-        window.addEventListener('pointermove', (e) => {
-          if (!down) return;
-          const dx = e.clientX - sx;
-          if (Math.abs(dx) > 6) row.dataset.moved = '1';
-          row.scrollLeft = sl - dx;
-        });
-        window.addEventListener('pointerup', () => {
-          down = false;
-          row.classList.remove('is-dragging');
-          setTimeout(() => { row.dataset.moved = '0'; }, 60);
-        });
-      }
-
       Object.keys(CAT_META).forEach((cat) => {
         const meta = CAT_META[cat];
         const g = archGalleries[cat];
@@ -4505,35 +4488,34 @@
 
         let contentHtml = '';
         if (cat === 'model') {
-          const wideItems = g.items.slice(-2);
-          const pairs = g.items.slice(0, -2).map((it, i) => [it, i]);
-          const leftCol = pairs.filter(p => p[1] % 2 === 0);
-          const rightCol = pairs.filter(p => p[1] % 2 === 1);
-
-          function renderToneItem(it, globalIdx, extraClass) {
+          function renderToneItem(it, globalIdx) {
             const isScale = (it.src.includes('1.webp') || it.src.includes('4.webp') || it.src.includes('5.webp'));
-            return '<div class="arch-tone-item' + (extraClass || '') + '" data-i="' + globalIdx + '">' +
-              '<img src="' + it.src + '" alt="" loading="lazy"' + (isScale ? ' class="fill-scale"' : '') + '>' +
+            return '<div class="arch-tone-item" data-i="' + globalIdx + '">' +
+              '<img decoding="async" src="' + it.src + '" alt="" loading="lazy"' + (isScale ? ' class="fill-scale"' : '') + '>' +
             '</div>';
           }
-
+          // 两行横向循环画廊：上半 12 张 + 下半 12 张，内容复制一份实现无缝循环
+          const half = Math.ceil(g.items.length / 2);
+          function marqueeRow(list, dur, delay) {
+            const seq = list.map(it => renderToneItem(it, g.items.indexOf(it))).join('');
+            return '<div class="arch-marquee-row">' +
+              '<div class="arch-marquee-strip" style="animation-duration:' + dur + 's; animation-delay:' + delay + 's">' + seq + seq + '</div>' +
+            '</div>';
+          }
           contentHtml =
-            '<div class="arch-tone-container">' +
-              '<div class="arch-tone-column">' +
-                leftCol.map(p => renderToneItem(p[0], p[1])).join('') +
-              '</div>' +
-              '<div class="arch-tone-column">' +
-                rightCol.map(p => renderToneItem(p[0], p[1])).join('') +
-              '</div>' +
-              wideItems.map(it => renderToneItem(it, g.items.indexOf(it), ' arch-tone-wide')).join('') +
+            '<div class="arch-marquee arch-marquee-rtl">' +
+              marqueeRow(g.items.slice(0, half), 80, 0) +
+              marqueeRow(g.items.slice(half), 80, -40) +
             '</div>' +
-            '<div class="arch-explore-hint">SCROLL UP / DOWN TO EXPLORE <span>↕</span></div>';
+            '<div class="arch-explore-hint">AUTO PLAYING · HOVER TO PAUSE <span>↻</span></div>';
         } else {
+          const seq = g.items.map((it, i) => '<figure class="arch-shot" data-i="' + i + '"><img decoding="async" src="' + it.src + '" alt="" loading="lazy"></figure>').join('');
+          const dur = Math.max(30, Math.round(g.items.length * 7));
           contentHtml =
-            '<div class="arch-row">' +
-              g.items.map((it, i) => '<figure class="arch-shot" data-i="' + i + '"><img src="' + it.src + '" alt="" loading="lazy"></figure>').join('') +
+            '<div class="arch-marquee arch-marquee-rtl">' +
+              '<div class="arch-marquee-row"><div class="arch-marquee-strip" style="animation-duration:' + dur + 's">' + seq + seq + '</div></div>' +
             '</div>' +
-            '<div class="arch-explore-hint">DRAG / SCROLL TO EXPLORE <span>→</span></div>';
+            '<div class="arch-explore-hint">AUTO PLAYING · HOVER TO PAUSE <span>↻</span></div>';
         }
 
         sec.innerHTML =
@@ -4549,42 +4531,39 @@
         host.appendChild(sec);
 
         if (cat === 'model') {
-          const tc = sec.querySelector('.arch-tone-container');
-          if (tc) {
-            let down = false, sy = 0, st = 0;
-            tc.addEventListener('pointerdown', (e) => {
-              if (e.pointerType !== 'mouse') return;
-              down = true; sy = e.clientY; st = tc.scrollTop;
-              tc.dataset.moved = '0';
-              tc.classList.add('is-dragging');
-            });
-            window.addEventListener('pointermove', (e) => {
-              if (!down) return;
-              const dy = e.clientY - sy;
-              if (Math.abs(dy) > 6) tc.dataset.moved = '1';
-              tc.scrollTop = st - dy;
-            });
-            window.addEventListener('pointerup', () => {
-              down = false;
-              tc.classList.remove('is-dragging');
-              setTimeout(() => { tc.dataset.moved = '0'; }, 60);
-            });
-
-            tc.addEventListener('click', (e) => {
-              if (tc.dataset.moved === '1') return;
+          const mq = sec.querySelector('.arch-marquee');
+          if (mq) {
+            mq.addEventListener('click', (e) => {
               const item = e.target.closest('.arch-tone-item');
               if (item) openArchGallery(cat, Number(item.dataset.i));
             });
+            // 滚出视口时暂停动画，回到视口恢复（省资源）
+            const io = new IntersectionObserver(entries => {
+              mq.classList.toggle('paused', !entries[0].isIntersecting);
+            }, { threshold: 0 });
+            io.observe(mq);
           }
         } else {
-          const row = sec.querySelector('.arch-row');
-          attachDrag(row);
-          row.addEventListener('click', (e) => {
-            if (row.dataset.moved === '1') return;
-            const shot = e.target.closest('.arch-shot');
-            if (shot) openArchGallery(cat, Number(shot.dataset.i));
-          });
+          const mq = sec.querySelector('.arch-marquee');
+          if (mq) {
+            mq.addEventListener('click', (e) => {
+              const shot = e.target.closest('.arch-shot');
+              if (shot) openArchGallery(cat, Number(shot.dataset.i));
+            });
+            const io = new IntersectionObserver(entries => {
+              mq.classList.toggle('paused', !entries[0].isIntersecting);
+            }, { threshold: 0 });
+            io.observe(mq);
+          }
         }
+      });
+
+      // UI 案例条（静态标记）：离屏自动暂停
+      document.querySelectorAll('.ui-marquee').forEach(mq => {
+        const io = new IntersectionObserver(entries => {
+          mq.classList.toggle('paused', !entries[0].isIntersecting);
+        }, { threshold: 0 });
+        io.observe(mq);
       });
 
     })();

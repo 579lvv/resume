@@ -2196,6 +2196,8 @@
 
         onMounted(() => {
           lucide.createIcons();
+          // 打开页面即自动载入「上海学未教育科技」完整案例，访客无需手动操作
+          loadPreset('xuewei');
         });
 
         return {
