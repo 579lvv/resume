@@ -1183,6 +1183,23 @@
     line-height: 1.68;
     text-align: justify;
   }
+  /* 策略：竖向编号逻辑流程图 */
+  .strategy-flow { display: flex; flex-direction: column; gap: 2px; }
+  .sf-step { display: flex; align-items: center; gap: 10px; position: relative; padding: 5px 0; }
+  .sf-step + .sf-step::before {
+    content: ""; position: absolute; left: 13px; top: -7px; width: 1px; height: 12px;
+    background: rgba(201, 111, 74, 0.45);
+  }
+  .sf-num {
+    width: 27px; height: 27px; border-radius: 50%;
+    border: 1px solid rgba(201, 111, 74, 0.45);
+    color: var(--accent); background: #fff;
+    font-size: 10.5px; font-weight: 700; letter-spacing: .04em;
+    display: flex; align-items: center; justify-content: center;
+    flex: none;
+  }
+  .sf-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+
   .vibe-item-desc {
     font-size: 13.5px;
     color: var(--ink-soft);
@@ -3229,15 +3246,6 @@
                     window.addEventListener('pointermove', retry, { passive: true });
                   })();
                 </script>
-                <div class="geo-bottom-pipeline geo-pipeline-center">
-                  <div class="geo-pipe-flow">
-                    <span>输入对标品牌</span> <span class="geo-pipe-arrow">➔</span>
-                    <span>解析国内资产</span> <span class="geo-pipe-arrow">➔</span>
-                    <span>跨文化内容重构</span> <span class="geo-pipe-arrow">➔</span>
-                    <span>风格迁移生成</span> <span class="geo-pipe-arrow">➔</span>
-                    <span>出海官网上线</span>
-                  </div>
-                </div>
               </div><div class="vibe-product-copy">
                 <div class="vibe-copy-top">
                   <div class="vibe-item-index-row">
@@ -3249,11 +3257,17 @@
                   <div class="vibe-structured-desc">
                     <div class="vibe-desc-row">
                       <span class="vibe-desc-label">背景</span>
-                      <span class="vibe-desc-text">品牌计划出海打造国际版官网，但国内站的内容与呈现方式直接迁移至海外站点时，面临语言表达、审美风格与使用习惯的多重不适配，难以打动海外对可持续和生活方式挑剔的用户。</span>
+                      <span class="vibe-desc-text">品牌计划出海打造国际版官网，但国内站的内容与呈现方式直接迁移至海外站点时，面临语言表达、审美风格与使用习惯的多重不适配。</span>
                     </div>
                     <div class="vibe-desc-row">
                       <span class="vibe-desc-label">策略</span>
-                      <span class="vibe-desc-text">对标北欧极简风格网站，重新整理三大产品线；将咖啡渣回收的闭环过程做成直观步骤，并加入海藻环保包装与情绪选香互动。</span>
+                      <div class="strategy-flow">
+                        <div class="sf-step"><span class="sf-num">01</span><span class="sf-name">输入对标品牌</span></div>
+                        <div class="sf-step"><span class="sf-num">02</span><span class="sf-name">解析国内资产</span></div>
+                        <div class="sf-step"><span class="sf-num">03</span><span class="sf-name">跨文化内容重构</span></div>
+                        <div class="sf-step"><span class="sf-num">04</span><span class="sf-name">风格迁移生成</span></div>
+                        <div class="sf-step"><span class="sf-num">05</span><span class="sf-name">出海官网上线</span></div>
+                      </div>
                     </div>
                     <div class="vibe-desc-row">
                       <span class="vibe-desc-label">成果</span>
@@ -3360,7 +3374,7 @@
                     
                   </div>
                 </div>
-                <iframe src="vibecoding作品/自媒体拆书生图/live_demo.html" title="智能分镜助手 Live 动效演示" style="width:100%; height:100%; min-height:438px; border:none; display:block; flex:1; background:#f8f8fa;" loading="lazy"></iframe>
+                <iframe src="vibecoding作品/自媒体拆书生图/live_demo.html?v=2" title="智能分镜助手 Live 动效演示" style="width:100%; height:100%; min-height:438px; border:none; display:block; flex:1; background:#f8f8fa;" loading="lazy"></iframe>
               </div>
               <div class="vibe-product-copy">
                 <div class="vibe-copy-top">
