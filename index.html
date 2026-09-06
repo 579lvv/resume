@@ -981,14 +981,14 @@
     padding-left: 16px;
   }
   .work-card-bullets li::before {
-    content: "•";
+    content: "";
     position: absolute;
-    left: 0;
-    color: #8b5a51;
-    font-weight: 800;
-    font-size: 16px;
-    line-height: 1;
-    top: -1px;
+    left: 1px;
+    top: calc(0.825em - 3.5px);
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #8b5a51;
   }
   .btn-open-work {
     display: inline-flex;
@@ -2353,6 +2353,7 @@
     font-size: 11px; letter-spacing: .06em; padding: 5px 12px; border-radius: 100px;
     backdrop-filter: blur(4px);
   }
+  /* 作品02：右栏双视频（上下轮播，高度随文字栏自适应） */
   .geo-bottom-pipeline {
     background: rgba(255, 255, 255, 0.85);
     border: 1px solid rgba(22, 20, 15, 0.08);
@@ -3218,7 +3219,7 @@
               </div>
             </div>
 
-                        <!-- 作品 02：品牌出海内容迁移 (反向左右排版) -->
+                        <!-- 作品 02：品牌出海内容迁移 (反向左右排版：左文右视频) -->
             <div class="vibe-product-card vibe-card-reverse">
               <div class="vibe-product-preview vibe-clip-col" style="min-height: 520px;">
                 <div class="vibe-clip-stage">
