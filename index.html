@@ -1026,6 +1026,24 @@
     align-items: flex-start;
   }
 
+  /* AIGC 影像：复用独立视频页，自适应高度，避免 iframe 内部滚动。 */
+  #works .sec-note-nowrap { white-space: normal; }
+  .aigc-frame-wrap {
+    width: 100%;
+    border: 1px solid rgba(22, 20, 15, 0.08);
+    border-radius: 20px;
+    overflow: hidden;
+    background: #f4f2eb;
+  }
+  .aigc-frame { display: block; width: 100%; height: 800px; border: 0; }
+  .aigc-full-link { align-self: flex-end; margin-top: -12px; }
+  @media (max-width: 760px) {
+    .aigc-frame { height: 1040px; }
+    .aigc-frame-wrap { border-radius: 14px; }
+    .aigc-full-link { min-height: 44px; display: inline-flex; align-items: center; }
+    body.aigc-viewing .back-to-top { opacity: 0; visibility: hidden; pointer-events: none; }
+  }
+
   /* ================= VIBE CODING 精品作品列表 (参考 Grace Gu 产品排版逻辑) ================= */
   .vibe-product-list {
     display: flex;
@@ -3163,7 +3181,7 @@
           <div class="sec-index">04 — Portfolio</div>
           <h2 class="sec-title">作品集</h2>
         </div>
-        <p class="sec-note">两大核心板块<br><span class="sec-note-nowrap">Vibe Coding作品 / 空间 · 建模渲染 · UI设计作品</span></p>
+        <p class="sec-note">三大核心板块<br><span class="sec-note-nowrap">Vibe Coding作品 / AIGC作品 / 空间与UI设计作品</span></p>
       </div>
 
       <div class="works-showcase-list">
@@ -3408,12 +3426,31 @@
             </div>          </div>
         </div>
 
-        <!-- ================= Module 02: 空间 · 建模渲染 · UI设计作品 ================= -->
+        <!-- ================= Module 02: AIGC作品 ================= -->
+        <div class="works-showcase-card vibe-unified-card reveal" id="aigc-works">
+          <div class="vibe-card-head">
+            <div class="work-top-row">
+              <div class="work-num-pill">02</div>
+              <div class="work-quote-text">在光影里，留一点自然。</div>
+            </div>
+            <div class="work-title-row">
+              <h3 class="work-card-title">AIGC作品</h3>
+              <span class="work-card-date">A’GAIN · FILMS</span>
+            </div>
+            <p class="work-card-desc">咖啡香薰蜡烛与植物香氛喷雾，两段关于气味、光影与自然的短片。</p>
+          </div>
+          <div class="aigc-frame-wrap">
+            <iframe class="aigc-frame" id="aigc-portfolio-frame" src="aigc-preview.html" title="刘前葳的 AIGC 影像作品集：咖啡香薰蜡烛与植物香氛喷雾" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+          </div>
+          <a class="vibe-item-link aigc-full-link" href="https://579lvv.github.io/again-films/" target="_blank" rel="noopener"><span>打开独立视频页</span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M7 17L17 7M17 7H7M17 7V17"/></svg></a>
+        </div>
+
+        <!-- ================= Module 03: 空间 · 建模渲染 · UI设计作品 ================= -->
         <div class="works-showcase-card vibe-unified-card reveal">
           <!-- 模块头部：标题与主张 -->
           <div class="vibe-card-head">
             <div class="work-top-row">
-              <div class="work-num-pill">02</div>
+              <div class="work-num-pill">03</div>
               <div class="work-quote-text">用逻辑构建方案秩序，用审美赋予细节温度与质感。</div>
             </div>
             <div class="work-title-row">
@@ -3656,6 +3693,7 @@
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
   </button>
 
+  <script src="aigc-portfolio-host.js"></script>
   <script>
     // 滚动渐入动画
     const io = new IntersectionObserver((entries)=>{
